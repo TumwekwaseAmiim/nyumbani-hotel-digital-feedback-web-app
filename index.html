@@ -161,6 +161,28 @@
 
 
 
+        <!-- =================================================
+             INSTALL APP BUTTON
+        ================================================== -->
+
+        <button
+            id="installAppBtn"
+            class="primary-btn wide-btn"
+            type="button"
+            style="display:none; margin-top:18px;"
+        >
+            📲 Install Nyumbani App
+        </button>
+
+
+
+        <p
+            id="installMessage"
+            class="form-message"
+        ></p>
+
+
+
         <button
             id="staffAccessBtn"
             class="staff-link-btn"
@@ -278,7 +300,7 @@
 
 
 <!-- =====================================================
-     ROLE MODAL SCRIPT
+     STAFF ROLE MODAL SCRIPT
 ===================================================== -->
 
 <script>
@@ -299,7 +321,6 @@ function openRole() {
         "aria-hidden",
         "false"
     );
-
 }
 
 
@@ -313,7 +334,6 @@ function closeRole() {
         "aria-hidden",
         "true"
     );
-
 }
 
 
@@ -356,11 +376,213 @@ modal.addEventListener(
         ) {
 
             closeRole();
-
         }
 
     }
 );
+
+</script>
+
+
+
+<!-- =====================================================
+     PWA INSTALL BUTTON
+===================================================== -->
+
+<script>
+
+let deferredInstallPrompt = null;
+
+
+const installAppBtn =
+    document.getElementById(
+        "installAppBtn"
+    );
+
+
+const installMessage =
+    document.getElementById(
+        "installMessage"
+    );
+
+
+// -----------------------------------------------------
+// CHROME / EDGE SAYS APP IS INSTALLABLE
+// -----------------------------------------------------
+
+window.addEventListener(
+    "beforeinstallprompt",
+    event => {
+
+        event.preventDefault();
+
+
+        deferredInstallPrompt =
+            event;
+
+
+        installAppBtn.style.display =
+            "block";
+
+
+        if (installMessage) {
+
+            installMessage.textContent =
+                "You can install Nyumbani Hotel Feedback on this device.";
+
+            installMessage.className =
+                "form-message";
+        }
+
+    }
+);
+
+
+
+// -----------------------------------------------------
+// INSTALL BUTTON CLICK
+// -----------------------------------------------------
+
+installAppBtn.addEventListener(
+    "click",
+    async function () {
+
+        if (
+            !deferredInstallPrompt
+        ) {
+
+            if (installMessage) {
+
+                installMessage.textContent =
+                    "If installation is not available, open your browser menu and choose Install App or Add to Home Screen.";
+
+                installMessage.className =
+                    "form-message";
+            }
+
+            return;
+        }
+
+
+        deferredInstallPrompt.prompt();
+
+
+        const choice =
+            await deferredInstallPrompt
+                .userChoice;
+
+
+        console.log(
+            "Nyumbani install choice:",
+            choice.outcome
+        );
+
+
+        if (
+            choice.outcome ===
+            "accepted"
+        ) {
+
+            if (installMessage) {
+
+                installMessage.textContent =
+                    "Installing Nyumbani Hotel Feedback...";
+
+                installMessage.className =
+                    "form-message success";
+            }
+
+        }
+
+        else {
+
+            if (installMessage) {
+
+                installMessage.textContent =
+                    "Installation was cancelled.";
+
+                installMessage.className =
+                    "form-message";
+            }
+        }
+
+
+        deferredInstallPrompt =
+            null;
+
+
+        installAppBtn.style.display =
+            "none";
+
+    }
+);
+
+
+
+// -----------------------------------------------------
+// APP SUCCESSFULLY INSTALLED
+// -----------------------------------------------------
+
+window.addEventListener(
+    "appinstalled",
+    function () {
+
+        console.log(
+            "Nyumbani Hotel Feedback installed."
+        );
+
+
+        deferredInstallPrompt =
+            null;
+
+
+        installAppBtn.style.display =
+            "none";
+
+
+        if (installMessage) {
+
+            installMessage.textContent =
+                "Nyumbani Hotel Feedback has been installed.";
+
+            installMessage.className =
+                "form-message success";
+        }
+
+    }
+);
+
+
+
+// -----------------------------------------------------
+// CHECK IF ALREADY RUNNING AS INSTALLED APP
+// -----------------------------------------------------
+
+function isRunningStandalone() {
+
+    return (
+        window.matchMedia(
+            "(display-mode: standalone)"
+        ).matches ||
+        window.navigator.standalone === true
+    );
+}
+
+
+if (
+    isRunningStandalone()
+) {
+
+    installAppBtn.style.display =
+        "none";
+
+
+    if (installMessage) {
+
+        installMessage.textContent =
+            "";
+    }
+}
 
 </script>
 

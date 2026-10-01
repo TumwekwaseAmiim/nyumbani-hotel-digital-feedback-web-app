@@ -1,0 +1,40 @@
+NYUMBANI AI SETUP
+
+1. Install Python 3.11 or a compatible recent Python version.
+
+2. From the project folder:
+   pip install -r requirements.txt
+
+3. Start the AI API:
+   cd backend
+   python -m uvicorn app:app --reload --host 127.0.0.1 --port 8000
+
+4. Run the website with VS Code Live Server.
+
+5. Submit feedback with a written comment, for example:
+   The room was clean but the wifi was terrible.
+
+6. Open:
+   Staff Login > Manager > AI Insights
+
+PYTORCH TRAINING
+   python ai/train_pytorch.py
+
+TENSORFLOW TRAINING
+   python ai/train_tensorflow.py
+
+The sample training file is:
+   data/training_feedback.csv
+
+Replace/add rows using real Nyumbani feedback after collecting and labelling enough examples.
+
+WHAT "DEEP LEARNING" MEANS HERE
+Both training scripts contain neural networks with hidden layers and dropout.
+The initial models are deliberately small because Nyumbani will begin with limited data.
+As the feedback dataset grows, the architecture can be upgraded to embeddings/transformers.
+
+IMPORTANT
+The current production-safe behavior is:
+- The normal web app always works.
+- AI analysis falls back to deterministic rules if the local Python API is unavailable.
+- PyTorch/TensorFlow models are training modules included in the package, but they are not pre-trained on enough real Nyumbani feedback yet.

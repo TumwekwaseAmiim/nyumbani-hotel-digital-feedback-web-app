@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>All Feedback</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header class="admin-header">
+
+    <div class="admin-brand">
+
+        <img
+            src="../assets/logo.png"
+            alt="Nyumbani Hotel"
+        >
+
+        <div>
+
+            <strong>
+                Nyumbani Hotel
+            </strong>
+
+            <span id="roleHeader"></span>
+
+        </div>
+
+    </div>
+
+
+    <nav>
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="feedback.html">
+            Feedback
+        </a>
+
+        <a href="complaints.html">
+            Complaints
+        </a>
+
+        <a href="reports.html">
+            Reports
+        </a>
+
+        <a href="ai-insights.html">
+            AI Insights
+        </a>
+
+        <a
+            href="staff.html"
+            class="admin-only"
+        >
+            Staff
+        </a>
+
+        <a
+            href="settings.html"
+            class="admin-only"
+        >
+            Settings
+        </a>
+
+        <button
+            id="logoutBtn"
+            class="link-btn"
+            type="button"
+        >
+            Logout
+        </button>
+
+    </nav>
+
+</header>
+
+
+
+<main class="admin-main">
+
+
+    <div class="page-title-row">
+
+        <div>
+
+            <h1>
+                All Feedback
+            </h1>
+
+            <p class="muted">
+                View Resident and Non-Resident guest feedback submitted to Nyumbani Hotel.
+            </p>
+
+        </div>
+
+
+        <a
+            class="secondary-btn text-link"
+            href="reports.html"
+        >
+            Open Reports
+        </a>
+
+    </div>
+
+
+
+    <p
+        id="feedbackMessage"
+        class="form-message"
+    ></p>
+
+
+
+    <section class="card">
+
+
+        <div class="filter-row">
+
+
+            <select id="guestTypeFilter">
+
+                <option value="">
+                    All Guest Types
+                </option>
+
+                <option value="Resident">
+                    Resident
+                </option>
+
+                <option value="Non-Resident">
+                    Non-Resident
+                </option>
+
+            </select>
+
+
+            <button
+                id="refreshFeedback"
+                class="secondary-btn"
+                type="button"
+            >
+                Refresh
+            </button>
+
+
+        </div>
+
+
+
+        <div class="table-wrap">
+
+
+            <table>
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Date & Time
+                        </th>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Type
+                        </th>
+
+                        <th>
+                            Room / Purpose
+                        </th>
+
+                        <th>
+                            Objective Answers
+                        </th>
+
+                        <th>
+                            Comments
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Report
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="feedbackTableBody">
+
+                    <tr>
+
+                        <td colspan="8">
+                            Loading feedback...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- SUPABASE LIBRARY -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+
+<!-- NYUMBANI SUPABASE CONNECTION -->
+
+<script src="../js/supabase.js"></script>
+
+
+<!-- REAL STAFF AUTHENTICATION -->
+
+<script src="../js/auth.js"></script>
+
+
+<!-- FEEDBACK / DASHBOARD LOGIC -->
+
+<script src="../js/dashboard.js"></script>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const refreshButton =
+            document.getElementById(
+                "refreshFeedback"
+            );
+
+
+        if (!refreshButton) {
+            return;
+        }
+
+
+        refreshButton.addEventListener(
+            "click",
+            async function () {
+
+                const message =
+                    document.getElementById(
+                        "feedbackMessage"
+                    );
+
+
+                if (message) {
+
+                    message.textContent =
+                        "Refreshing feedback...";
+
+                    message.className =
+                        "form-message";
+                }
+
+
+                try {
+
+                    await renderFeedback();
+
+
+                    if (message) {
+
+                        message.textContent =
+                            "Feedback refreshed.";
+
+                        message.className =
+                            "form-message success";
+
+
+                        setTimeout(
+                            function () {
+
+                                message.textContent = "";
+
+                            },
+                            1500
+                        );
+                    }
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Feedback refresh failed:",
+                        error
+                    );
+
+
+                    if (message) {
+
+                        message.textContent =
+                            "Unable to refresh feedback.";
+
+                        message.className =
+                            "form-message error";
+                    }
+                }
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+text,label
+"The food was excellent and fresh",positive
+"The receptionist was very friendly",positive
+"The room was clean and comfortable",positive
+"The conference setup was beautiful",positive
+"The internet was fast and reliable",positive
+"Breakfast was delicious",positive
+"The wifi was terrible and kept disconnecting",negative
+"The bathroom was dirty",negative
+"We waited too long for food",negative
+"There was no hot water",negative
+"The receptionist was rude",negative
+"The room was very noisy",negative
+"The stay was okay",neutral
+"The service was average",neutral
+"The room was fine",neutral
+"Nothing special but acceptable",neutral
+"The meeting went normally",neutral
+"The food was neither good nor bad",neutral

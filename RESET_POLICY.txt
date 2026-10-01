@@ -1,0 +1,19 @@
+NYUMBANI HOTEL MONTHLY RESET POLICY
+
+Recommended month-end workflow:
+
+1. Manager/System Admin reviews the month's feedback.
+2. Print or save:
+   - full monthly feedback report
+   - category summary
+   - complaints and resolutions
+3. System Admin opens Settings.
+4. Confirm report has been saved.
+5. Type RESET MONTH.
+6. The app archives an anonymous aggregate summary.
+7. Current guest/customer records are deleted locally.
+8. Staff accounts remain unless System Admin uses the separate Staff Reset section.
+
+The anonymous monthly archive keeps totals only, not names, phone numbers, emails, room numbers, or guest comments.
+
+For a real online database, do not use browser-only deletion logic. Implement server-authorized retention/deletion policies and backups.

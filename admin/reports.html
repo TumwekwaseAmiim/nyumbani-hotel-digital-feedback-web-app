@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>Feedback Reports</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+
+    <style>
+
+        .report-rating-list {
+            margin: 10px 0 0;
+            padding-left: 20px;
+        }
+
+        .report-rating-list li {
+            margin-bottom: 6px;
+        }
+
+        .report-item {
+            margin-bottom: 20px;
+        }
+
+        .report-meta {
+            display: grid;
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(180px, 1fr)
+                );
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .report-meta div {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .category-summary-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .category-summary-table th,
+        .category-summary-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .ai-report-box {
+            margin-top: 12px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+
+        @media print {
+
+            .admin-header,
+            .report-filter-card,
+            .report-actions,
+            #reportMessage {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+            }
+
+            .admin-main {
+                margin: 0;
+                padding: 0;
+            }
+
+            .card {
+                box-shadow: none !important;
+                border: 1px solid #ddd;
+            }
+
+            .report-section {
+                break-inside: avoid;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     ADMIN HEADER
+===================================================== -->
+
+<header class="admin-header">
+
+    <div class="admin-brand">
+
+        <img
+            src="../assets/logo.png"
+            alt="Nyumbani Hotel"
+        >
+
+        <div>
+
+            <strong>
+                Nyumbani Hotel
+            </strong>
+
+            <span id="roleHeader"></span>
+
+        </div>
+
+    </div>
+
+
+    <nav>
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="feedback.html">
+            Feedback
+        </a>
+
+        <a href="complaints.html">
+            Complaints
+        </a>
+
+        <a href="reports.html">
+            Reports
+        </a>
+
+        <a href="ai-insights.html">
+            AI Insights
+        </a>
+
+        <a
+            href="staff.html"
+            class="admin-only"
+        >
+            Staff
+        </a>
+
+        <a
+            href="settings.html"
+            class="admin-only"
+        >
+            Settings
+        </a>
+
+        <button
+            id="logoutBtn"
+            class="link-btn"
+            type="button"
+        >
+            Logout
+        </button>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN AREA
+===================================================== -->
+
+<main class="admin-main">
+
+
+    <div class="page-title-row">
+
+        <div>
+
+            <h1>
+                Feedback Reports
+            </h1>
+
+            <p class="muted">
+                Print all feedback, one guest,
+                one guest type, a date range,
+                or one category at a time.
+            </p>
+
+        </div>
+
+
+        <div class="report-actions">
+
+            <button
+                id="printReport"
+                class="primary-btn"
+                type="button"
+            >
+                Print Report
+            </button>
+
+
+            <button
+                id="clearFilters"
+                class="secondary-btn"
+                type="button"
+            >
+                Clear Filters
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <p
+        id="reportMessage"
+        class="form-message"
+    ></p>
+
+
+
+    <!-- =================================================
+         FILTERS
+    ================================================== -->
+
+    <section class="card report-filter-card">
+
+
+        <div class="report-filters">
+
+
+            <label>
+
+                From Date
+
+                <input
+                    type="date"
+                    id="fromDate"
+                >
+
+            </label>
+
+
+            <label>
+
+                To Date
+
+                <input
+                    type="date"
+                    id="toDate"
+                >
+
+            </label>
+
+
+            <label>
+
+                Guest Type
+
+                <select id="reportGuestType">
+
+                    <option value="">
+                        All
+                    </option>
+
+                    <option value="Resident">
+                        Resident
+                    </option>
+
+                    <option value="Non-Resident">
+                        Non-Resident
+                    </option>
+
+                </select>
+
+            </label>
+
+
+            <label>
+
+                Category
+
+                <select id="reportCategory">
+
+                    <option value="">
+                        All Categories
+                    </option>
+
+                </select>
+
+            </label>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         PRINT AREA
+    ================================================== -->
+
+    <section id="reportArea">
+
+
+        <!-- LETTERHEAD -->
+
+        <section class="report-letterhead">
+
+            <img
+                src="../assets/logo.png"
+                alt="Nyumbani Hotel"
+            >
+
+            <div>
+
+                <h2>
+                    Nyumbani Hotel Kampala
+                </h2>
+
+                <p>
+                    Guest Feedback Report
+                </p>
+
+                <p id="reportGenerated"></p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- INDIVIDUAL GUEST REPORT -->
+
+        <section
+            id="individualReport"
+            class="card report-section"
+            style="display:none"
+        ></section>
+
+
+
+        <!-- CATEGORY SUMMARY -->
+
+        <section class="card report-section">
+
+            <h2>
+                Category Summary
+            </h2>
+
+            <div id="categorySummary">
+
+                Loading report...
+
+            </div>
+
+        </section>
+
+
+
+        <!-- DETAILED FEEDBACK -->
+
+        <section class="card report-section">
+
+            <h2>
+                Detailed Feedback
+            </h2>
+
+            <div id="detailedReport">
+
+                Loading feedback...
+
+            </div>
+
+        </section>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     SUPABASE LIBRARY
+===================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+
+<!-- =====================================================
+     SUPABASE CONNECTION
+===================================================== -->
+
+<script src="../js/supabase.js"></script>
+
+
+<!-- =====================================================
+     REAL STAFF AUTH
+===================================================== -->
+
+<script src="../js/auth.js"></script>
+
+
+
+<!-- =====================================================
+     REPORT SYSTEM
+===================================================== -->
+
+<script>
+
+
+// =====================================================
+// GLOBAL DATA
+// =====================================================
+
+let reportFeedback = [];
+
+
+
+// =====================================================
+// SAFE HTML
+// =====================================================
+
+function escapeReportHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+    }
+
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+
+// =====================================================
+// FORMAT DATE
+// =====================================================
+
+function reportDate(value) {
+
+    if (!value) {
+        return "-";
+    }
+
+
+    try {
+
+        return new Date(value)
+            .toLocaleString();
+
+    }
+
+    catch {
+
+        return value;
+    }
+}
+
+
+
+// =====================================================
+// GET RATINGS
+// =====================================================
+
+function reportRatings(item) {
+
+    if (
+        Array.isArray(
+            item.feedback_ratings
+        )
+    ) {
+
+        return item.feedback_ratings;
+    }
+
+
+    return [];
+}
+
+
+
+// =====================================================
+// GET REPORT ID
+// =====================================================
+
+function getReportId() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+
+    return params.get("id");
+}
+
+
+
+// =====================================================
+// LOAD SUPABASE FEEDBACK
+// =====================================================
+
+async function loadReportData() {
+
+    const message =
+        document.getElementById(
+            "reportMessage"
+        );
+
+
+    if (message) {
+
+        message.textContent =
+            "Loading report data...";
+
+        message.className =
+            "form-message";
+    }
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await window
+                .nyumbaniSupabase
+                .from("feedback")
+                .select(`
+                    id,
+                    guest_type,
+                    visit_purpose,
+                    name,
+                    email,
+                    phone,
+                    room_number,
+                    booking_type,
+                    comments,
+                    average_rating,
+                    status,
+                    resolution_notes,
+                    created_at,
+                    ai_sentiment,
+                    ai_department,
+                    ai_issue_type,
+                    ai_urgency,
+                    ai_engine,
+                    feedback_ratings (
+                        id,
+                        category,
+                        answer,
+                        hidden_score
+                    )
+                `)
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                );
+
+
+        if (error) {
+
+            console.error(
+                "Report loading error:",
+                error
+            );
+
+
+            if (message) {
+
+                message.textContent =
+                    "Unable to load report data.";
+
+                message.className =
+                    "form-message error";
+            }
+
+
+            return;
+        }
+
+
+        reportFeedback =
+            data || [];
+
+
+        populateCategories();
+
+
+        renderReports();
+
+
+        if (message) {
+
+            message.textContent = "";
+
+            message.className =
+                "form-message";
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Unexpected report error:",
+            error
+        );
+
+
+        if (message) {
+
+            message.textContent =
+                "Unable to load reports.";
+
+            message.className =
+                "form-message error";
+        }
+    }
+}
+
+
+
+// =====================================================
+// POPULATE CATEGORY FILTER
+// =====================================================
+
+function populateCategories() {
+
+    const select =
+        document.getElementById(
+            "reportCategory"
+        );
+
+
+    if (!select) {
+        return;
+    }
+
+
+    const selected =
+        select.value;
+
+
+    const categories =
+        new Set();
+
+
+    reportFeedback.forEach(
+        item => {
+
+            reportRatings(item)
+                .forEach(
+                    rating => {
+
+                        if (
+                            rating.category
+                        ) {
+
+                            categories.add(
+                                rating.category
+                            );
+                        }
+                    }
+                );
+        }
+    );
+
+
+    const sorted =
+        Array.from(
+            categories
+        ).sort();
+
+
+    select.innerHTML = `
+
+        <option value="">
+            All Categories
+        </option>
+
+        ${sorted.map(
+            category => `
+
+                <option
+                    value="${escapeReportHtml(
+                        category
+                    )}"
+                >
+                    ${escapeReportHtml(
+                        category
+                    )}
+                </option>
+
+            `
+        ).join("")}
+
+    `;
+
+
+    if (
+        sorted.includes(
+            selected
+        )
+    ) {
+
+        select.value =
+            selected;
+    }
+}
+
+
+
+// =====================================================
+// FILTER DATA
+// =====================================================
+
+function getFilteredReportItems() {
+
+    let items =
+        [...reportFeedback];
+
+
+    const individualId =
+        getReportId();
+
+
+    const from =
+        document.getElementById(
+            "fromDate"
+        ).value;
+
+
+    const to =
+        document.getElementById(
+            "toDate"
+        ).value;
+
+
+    const guestType =
+        document.getElementById(
+            "reportGuestType"
+        ).value;
+
+
+    const category =
+        document.getElementById(
+            "reportCategory"
+        ).value;
+
+
+
+    // -----------------------------------------
+    // INDIVIDUAL REPORT
+    // -----------------------------------------
+
+    if (individualId) {
+
+        items =
+            items.filter(
+                item =>
+                    item.id ===
+                    individualId
+            );
+    }
+
+
+
+    // -----------------------------------------
+    // FROM DATE
+    // -----------------------------------------
+
+    if (from) {
+
+        const start =
+            new Date(
+                from + "T00:00:00"
+            );
+
+
+        items =
+            items.filter(
+                item =>
+                    new Date(
+                        item.created_at
+                    ) >= start
+            );
+    }
+
+
+
+    // -----------------------------------------
+    // TO DATE
+    // -----------------------------------------
+
+    if (to) {
+
+        const end =
+            new Date(
+                to + "T23:59:59.999"
+            );
+
+
+        items =
+            items.filter(
+                item =>
+                    new Date(
+                        item.created_at
+                    ) <= end
+            );
+    }
+
+
+
+    // -----------------------------------------
+    // GUEST TYPE
+    // -----------------------------------------
+
+    if (guestType) {
+
+        items =
+            items.filter(
+                item =>
+                    item.guest_type ===
+                    guestType
+            );
+    }
+
+
+
+    // -----------------------------------------
+    // CATEGORY
+    // -----------------------------------------
+
+    if (category) {
+
+        items =
+            items.filter(
+                item =>
+                    reportRatings(item)
+                        .some(
+                            rating =>
+                                rating.category ===
+                                category
+                        )
+            );
+    }
+
+
+    return items;
+}
+
+
+
+// =====================================================
+// FILTER RATINGS FOR CATEGORY REPORT
+// =====================================================
+
+function ratingsForReport(item) {
+
+    const selectedCategory =
+        document.getElementById(
+            "reportCategory"
+        ).value;
+
+
+    const ratings =
+        reportRatings(item);
+
+
+    if (!selectedCategory) {
+
+        return ratings;
+    }
+
+
+    return ratings.filter(
+        rating =>
+            rating.category ===
+            selectedCategory
+    );
+}
+
+
+
+// =====================================================
+// RATING LIST
+// =====================================================
+
+function ratingListHtml(item) {
+
+    const ratings =
+        ratingsForReport(item);
+
+
+    if (!ratings.length) {
+
+        return `
+            <p>
+                No category answers available.
+            </p>
+        `;
+    }
+
+
+    return `
+
+        <ul class="report-rating-list">
+
+            ${ratings.map(
+                rating => `
+
+                    <li>
+
+                        <strong>
+                            ${escapeReportHtml(
+                                rating.category
+                            )}:
+                        </strong>
+
+                        ${escapeReportHtml(
+                            rating.answer ||
+                            "-"
+                        )}
+
+                    </li>
+
+                `
+            ).join("")}
+
+        </ul>
+
+    `;
+}
+
+
+
+// =====================================================
+// INDIVIDUAL REPORT
+// =====================================================
+
+function renderIndividualReport(
+    items
+) {
+
+    const section =
+        document.getElementById(
+            "individualReport"
+        );
+
+
+    const individualId =
+        getReportId();
+
+
+    if (
+        !individualId
+    ) {
+
+        section.style.display =
+            "none";
+
+        section.innerHTML = "";
+
+        return;
+    }
+
+
+    section.style.display =
+        "block";
+
+
+    if (
+        items.length === 0
+    ) {
+
+        section.innerHTML = `
+
+            <h2>
+                Individual Guest Report
+            </h2>
+
+            <p>
+                Feedback record not found.
+            </p>
+
+        `;
+
+        return;
+    }
+
+
+    const item =
+        items[0];
+
+
+    const roomPurpose =
+        item.guest_type ===
+        "Resident"
+
+            ? (
+                item.room_number
+                    ? `Room ${
+                        escapeReportHtml(
+                            item.room_number
+                        )
+                    }`
+                    : "-"
+            )
+
+            : escapeReportHtml(
+                item.visit_purpose ||
+                "-"
+            );
+
+
+    section.innerHTML = `
+
+        <h2>
+            Individual Guest Feedback
+        </h2>
+
+
+        <div class="report-meta">
+
+
+            <div>
+
+                <strong>
+                    Date & Time
+                </strong>
+
+                <br>
+
+                ${escapeReportHtml(
+                    reportDate(
+                        item.created_at
+                    )
+                )}
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Guest
+                </strong>
+
+                <br>
+
+                ${escapeReportHtml(
+                    item.name ||
+                    "Anonymous"
+                )}
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Guest Type
+                </strong>
+
+                <br>
+
+                ${escapeReportHtml(
+                    item.guest_type
+                )}
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Room / Purpose
+                </strong>
+
+                <br>
+
+                ${roomPurpose}
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Phone
+                </strong>
+
+                <br>
+
+                ${escapeReportHtml(
+                    item.phone ||
+                    "-"
+                )}
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Email
+                </strong>
+
+                <br>
+
+                ${escapeReportHtml(
+                    item.email ||
+                    "-"
+                )}
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Status
+                </strong>
+
+                <br>
+
+                ${escapeReportHtml(
+                    item.status ||
+                    "Received"
+                )}
+
+            </div>
+
+
+        </div>
+
+
+        <h3>
+            Objective Answers
+        </h3>
+
+        ${ratingListHtml(
+            item
+        )}
+
+
+        <h3>
+            Guest Comments
+        </h3>
+
+        <p>
+
+            ${escapeReportHtml(
+                item.comments ||
+                "No comments provided."
+            )}
+
+        </p>
+
+
+        ${
+            item.resolution_notes
+
+                ? `
+
+                    <h3>
+                        Resolution Notes
+                    </h3>
+
+                    <p>
+                        ${escapeReportHtml(
+                            item.resolution_notes
+                        )}
+                    </p>
+
+                `
+
+                : ""
+        }
+
+
+        ${
+            item.ai_sentiment ||
+            item.ai_department ||
+            item.ai_issue_type ||
+            item.ai_urgency
+
+                ? `
+
+                    <div class="ai-report-box">
+
+                        <h3>
+                            AI Analysis
+                        </h3>
+
+                        <p>
+                            <strong>
+                                Sentiment:
+                            </strong>
+
+                            ${escapeReportHtml(
+                                item.ai_sentiment ||
+                                "-"
+                            )}
+                        </p>
+
+                        <p>
+                            <strong>
+                                Department:
+                            </strong>
+
+                            ${escapeReportHtml(
+                                item.ai_department ||
+                                "-"
+                            )}
+                        </p>
+
+                        <p>
+                            <strong>
+                                Issue:
+                            </strong>
+
+                            ${escapeReportHtml(
+                                item.ai_issue_type ||
+                                "-"
+                            )}
+                        </p>
+
+                        <p>
+                            <strong>
+                                Urgency:
+                            </strong>
+
+                            ${escapeReportHtml(
+                                item.ai_urgency ||
+                                "-"
+                            )}
+                        </p>
+
+                    </div>
+
+                `
+
+                : ""
+        }
+
+    `;
+}
+
+
+
+// =====================================================
+// CATEGORY SUMMARY
+// =====================================================
+
+function renderCategorySummary(
+    items
+) {
+
+    const container =
+        document.getElementById(
+            "categorySummary"
+        );
+
+
+    const summary = {};
+
+
+    items.forEach(
+        item => {
+
+            ratingsForReport(item)
+                .forEach(
+                    rating => {
+
+                        const category =
+                            rating.category ||
+                            "Unknown Category";
+
+
+                        const answer =
+                            rating.answer ||
+                            "Not Answered";
+
+
+                        if (
+                            !summary[
+                                category
+                            ]
+                        ) {
+
+                            summary[
+                                category
+                            ] = {
+                                "Very Good": 0,
+                                "Good": 0,
+                                "Average": 0,
+                                "Poor": 0,
+                                "Very Poor": 0
+                            };
+                        }
+
+
+                        if (
+                            summary[
+                                category
+                            ][answer] !==
+                            undefined
+                        ) {
+
+                            summary[
+                                category
+                            ][answer] += 1;
+                        }
+                    }
+                );
+        }
+    );
+
+
+    const entries =
+        Object.entries(
+            summary
+        );
+
+
+    if (
+        !entries.length
+    ) {
+
+        container.innerHTML = `
+
+            <p>
+                No category data found
+                for the selected report.
+            </p>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = `
+
+        <div class="table-wrap">
+
+            <table
+                class="category-summary-table"
+            >
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Category
+                        </th>
+
+                        <th>
+                            Very Good
+                        </th>
+
+                        <th>
+                            Good
+                        </th>
+
+                        <th>
+                            Average
+                        </th>
+
+                        <th>
+                            Poor
+                        </th>
+
+                        <th>
+                            Very Poor
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    ${entries.map(
+                        (
+                            [
+                                category,
+                                counts
+                            ]
+                        ) => `
+
+                            <tr>
+
+                                <td>
+                                    ${escapeReportHtml(
+                                        category
+                                    )}
+                                </td>
+
+                                <td>
+                                    ${counts[
+                                        "Very Good"
+                                    ]}
+                                </td>
+
+                                <td>
+                                    ${counts[
+                                        "Good"
+                                    ]}
+                                </td>
+
+                                <td>
+                                    ${counts[
+                                        "Average"
+                                    ]}
+                                </td>
+
+                                <td>
+                                    ${counts[
+                                        "Poor"
+                                    ]}
+                                </td>
+
+                                <td>
+                                    ${counts[
+                                        "Very Poor"
+                                    ]}
+                                </td>
+
+                            </tr>
+
+                        `
+                    ).join("")}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    `;
+}
+
+
+
+// =====================================================
+// DETAILED REPORT
+// =====================================================
+
+function renderDetailedReport(
+    items
+) {
+
+    const container =
+        document.getElementById(
+            "detailedReport"
+        );
+
+
+    if (
+        !items.length
+    ) {
+
+        container.innerHTML = `
+
+            <p>
+                No feedback found for
+                the selected filters.
+            </p>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        items.map(
+            item => {
+
+
+                const location =
+                    item.guest_type ===
+                    "Resident"
+
+                        ? (
+                            item.room_number
+                                ? `Room ${
+                                    escapeReportHtml(
+                                        item.room_number
+                                    )
+                                }`
+                                : "-"
+                        )
+
+                        : escapeReportHtml(
+                            item.visit_purpose ||
+                            "-"
+                        );
+
+
+                return `
+
+                    <article
+                        class="report-item"
+                    >
+
+
+                        <h3>
+
+                            ${escapeReportHtml(
+                                item.name ||
+                                "Anonymous Guest"
+                            )}
+
+                        </h3>
+
+
+                        <p>
+
+                            <strong>
+                                Date:
+                            </strong>
+
+                            ${escapeReportHtml(
+                                reportDate(
+                                    item.created_at
+                                )
+                            )}
+
+                        </p>
+
+
+                        <p>
+
+                            <strong>
+                                Guest Type:
+                            </strong>
+
+                            ${escapeReportHtml(
+                                item.guest_type
+                            )}
+
+                            &nbsp; | &nbsp;
+
+                            <strong>
+                                Room / Purpose:
+                            </strong>
+
+                            ${location}
+
+                        </p>
+
+
+                        <p>
+
+                            <strong>
+                                Status:
+                            </strong>
+
+                            ${escapeReportHtml(
+                                item.status ||
+                                "Received"
+                            )}
+
+                        </p>
+
+
+                        <h4>
+                            Objective Answers
+                        </h4>
+
+
+                        ${ratingListHtml(
+                            item
+                        )}
+
+
+                        <p>
+
+                            <strong>
+                                Comments:
+                            </strong>
+
+                            ${escapeReportHtml(
+                                item.comments ||
+                                "-"
+                            )}
+
+                        </p>
+
+
+                        ${
+                            item.resolution_notes
+
+                                ? `
+
+                                    <p>
+
+                                        <strong>
+                                            Resolution Notes:
+                                        </strong>
+
+                                        ${escapeReportHtml(
+                                            item.resolution_notes
+                                        )}
+
+                                    </p>
+
+                                `
+
+                                : ""
+                        }
+
+
+                        <hr>
+
+                    </article>
+
+                `;
+
+            }
+        ).join("");
+}
+
+
+
+// =====================================================
+// RENDER EVERYTHING
+// =====================================================
+
+function renderReports() {
+
+    const items =
+        getFilteredReportItems();
+
+
+    document.getElementById(
+        "reportGenerated"
+    ).textContent =
+        "Generated: " +
+        new Date()
+            .toLocaleString();
+
+
+    renderIndividualReport(
+        items
+    );
+
+
+    renderCategorySummary(
+        items
+    );
+
+
+    renderDetailedReport(
+        items
+    );
+}
+
+
+
+// =====================================================
+// FILTER EVENTS
+// =====================================================
+
+function setupReportFilters() {
+
+    const controls = [
+
+        "fromDate",
+        "toDate",
+        "reportGuestType",
+        "reportCategory"
+
+    ];
+
+
+    controls.forEach(
+        id => {
+
+            const element =
+                document.getElementById(
+                    id
+                );
+
+
+            if (!element) {
+                return;
+            }
+
+
+            element.addEventListener(
+                "change",
+                renderReports
+            );
+        }
+    );
+}
+
+
+
+// =====================================================
+// CLEAR FILTERS
+// =====================================================
+
+function clearReportFilters() {
+
+    document.getElementById(
+        "fromDate"
+    ).value = "";
+
+
+    document.getElementById(
+        "toDate"
+    ).value = "";
+
+
+    document.getElementById(
+        "reportGuestType"
+    ).value = "";
+
+
+    document.getElementById(
+        "reportCategory"
+    ).value = "";
+
+
+    // Remove individual feedback ID
+    // from the URL.
+
+    window.history.replaceState(
+        {},
+        "",
+        "reports.html"
+    );
+
+
+    renderReports();
+}
+
+
+
+// =====================================================
+// START REPORT PAGE
+// =====================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function () {
+
+
+        setupReportFilters();
+
+
+        document.getElementById(
+            "printReport"
+        ).addEventListener(
+            "click",
+            function () {
+
+                window.print();
+            }
+        );
+
+
+        document.getElementById(
+            "clearFilters"
+        ).addEventListener(
+            "click",
+            clearReportFilters
+        );
+
+
+        await loadReportData();
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

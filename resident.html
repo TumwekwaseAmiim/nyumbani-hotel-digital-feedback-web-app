@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Resident Guest Feedback</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<main class="page-shell">
+
+    <section class="card form-card">
+
+        <a href="index.html" class="back-link">
+            ← Back
+        </a>
+
+        <img
+            src="assets/logo.png"
+            class="hotel-logo form-logo"
+            alt="Nyumbani Hotel"
+        >
+
+        <h1>Resident Guest Feedback</h1>
+
+        <p class="muted">
+            For guests who stayed/slept at Nyumbani Hotel.
+        </p>
+
+        <div class="auto-date">
+            Feedback date and time:
+            <strong id="currentDateTime"></strong>
+        </div>
+
+        <form
+            id="residentForm"
+            data-guest-type="Resident"
+        >
+
+            <div class="form-grid">
+
+                <label>
+                    Name
+
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Optional"
+                    >
+                </label>
+
+                <label>
+                    Email
+
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Optional"
+                    >
+                </label>
+
+                <label>
+                    Telephone
+
+                    <input
+                        type="tel"
+                        name="phone"
+                        placeholder="Optional"
+                    >
+                </label>
+
+                <label>
+                    Room Number
+                    <span class="required">*</span>
+
+                    <input
+                        type="text"
+                        name="room_number"
+                        required
+                        placeholder="Required"
+                    >
+                </label>
+
+                <label class="full-width">
+                    Booking Type
+
+                    <select name="booking_type">
+
+                        <option value="">
+                            Select booking type
+                        </option>
+
+                        <option>
+                            Walk-in
+                        </option>
+
+                        <option>
+                            Reserved privately
+                        </option>
+
+                        <option>
+                            Reserved under company
+                        </option>
+
+                    </select>
+                </label>
+
+            </div>
+
+
+            <h3>
+                Kindly rate the following
+            </h3>
+
+            <p class="muted small">
+                Select one answer for every category.
+                Stars appear automatically for interaction only;
+                reports show your selected words.
+            </p>
+
+
+            <div
+                id="residentRatings"
+                class="rating-list"
+            ></div>
+
+
+            <label class="full-width">
+
+                Other Comments / Suggestions
+
+                <textarea
+                    name="comments"
+                    rows="5"
+                    placeholder="Tell us what you liked or what we can improve..."
+                ></textarea>
+
+            </label>
+
+
+            <button
+                type="submit"
+                class="primary-btn wide-btn"
+            >
+                Submit Feedback
+            </button>
+
+
+            <p
+                id="formMessage"
+                class="form-message"
+            ></p>
+
+
+        </form>
+
+    </section>
+
+</main>
+
+
+<!-- SUPABASE JAVASCRIPT LIBRARY -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- NYUMBANI SUPABASE CONNECTION -->
+<script src="js/supabase.js"></script>
+
+<!-- LOCAL STORAGE / HELPER FUNCTIONS -->
+<script src="js/storage.js"></script>
+
+<!-- AI ANALYSIS -->
+<script src="js/ai.js"></script>
+
+<!-- FEEDBACK SYSTEM -->
+<script src="js/feedback.js"></script>
+
+
+</body>
+
+</html>

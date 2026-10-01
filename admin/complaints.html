@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>
+        Complaint Management
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     ADMIN HEADER
+===================================================== -->
+
+<header class="admin-header">
+
+
+    <div class="admin-brand">
+
+        <img
+            src="../assets/logo.png"
+            alt="Nyumbani Hotel"
+        >
+
+        <div>
+
+            <strong>
+                Nyumbani Hotel
+            </strong>
+
+            <span id="roleHeader"></span>
+
+        </div>
+
+    </div>
+
+
+    <nav>
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="feedback.html">
+            Feedback
+        </a>
+
+        <a href="complaints.html">
+            Complaints
+        </a>
+
+        <a href="reports.html">
+            Reports
+        </a>
+
+        <a href="ai-insights.html">
+            AI Insights
+        </a>
+
+        <a
+            href="staff.html"
+            class="admin-only"
+        >
+            Staff
+        </a>
+
+        <a
+            href="settings.html"
+            class="admin-only"
+        >
+            Settings
+        </a>
+
+        <button
+            id="logoutBtn"
+            class="link-btn"
+            type="button"
+        >
+            Logout
+        </button>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<main class="admin-main">
+
+
+    <div class="page-title-row">
+
+        <div>
+
+            <h1>
+                Complaint Management
+            </h1>
+
+            <p class="muted">
+
+                Guest feedback with an internal average
+                rating of Poor or Very Poor is automatically
+                flagged for follow-up.
+
+                Printed reports continue to display objective
+                rating words rather than numerical scores.
+
+            </p>
+
+        </div>
+
+
+        <button
+            id="refreshComplaints"
+            class="secondary-btn"
+            type="button"
+        >
+            Refresh
+        </button>
+
+    </div>
+
+
+    <p
+        id="complaintsMessage"
+        class="form-message"
+    ></p>
+
+
+
+    <!-- =================================================
+         COMPLAINT TABLE
+    ================================================== -->
+
+    <section class="card">
+
+
+        <div class="table-wrap">
+
+
+            <table>
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Guest
+                        </th>
+
+                        <th>
+                            Type
+                        </th>
+
+                        <th>
+                            Room / Purpose
+                        </th>
+
+                        <th>
+                            Comments
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Resolution Notes
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="complaintsTableBody">
+
+                    <tr>
+
+                        <td colspan="7">
+                            Loading complaints...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     SUPABASE JAVASCRIPT LIBRARY
+===================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+
+
+<!-- =====================================================
+     NYUMBANI SUPABASE CONNECTION
+===================================================== -->
+
+<script src="../js/supabase.js"></script>
+
+
+
+<!-- =====================================================
+     REAL STAFF AUTHENTICATION
+===================================================== -->
+
+<script src="../js/auth.js"></script>
+
+
+
+<!-- =====================================================
+     DASHBOARD / COMPLAINT LOGIC
+===================================================== -->
+
+<script src="../js/dashboard.js"></script>
+
+
+
+<!-- =====================================================
+     COMPLAINT PAGE REFRESH
+===================================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const refreshButton =
+            document.getElementById(
+                "refreshComplaints"
+            );
+
+
+        if (!refreshButton) {
+            return;
+        }
+
+
+        refreshButton.addEventListener(
+            "click",
+            async function () {
+
+                const message =
+                    document.getElementById(
+                        "complaintsMessage"
+                    );
+
+
+                if (message) {
+
+                    message.textContent =
+                        "Refreshing complaints...";
+
+                    message.className =
+                        "form-message";
+                }
+
+
+                try {
+
+                    await renderComplaints();
+
+
+                    if (message) {
+
+                        message.textContent =
+                            "Complaints refreshed.";
+
+                        message.className =
+                            "form-message success";
+
+
+                        setTimeout(
+                            function () {
+
+                                message.textContent = "";
+
+                            },
+                            1500
+                        );
+                    }
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Complaint refresh failed:",
+                        error
+                    );
+
+
+                    if (message) {
+
+                        message.textContent =
+                            "Unable to refresh complaints.";
+
+                        message.className =
+                            "form-message error";
+                    }
+                }
+
+            }
+        );
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

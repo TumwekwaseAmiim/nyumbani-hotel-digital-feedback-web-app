@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>AI Insights</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+<header class="admin-header">
+
+    <div class="admin-brand">
+
+        <img
+            src="../assets/logo.png"
+            alt="Nyumbani Hotel"
+        >
+
+        <div>
+
+            <strong>
+                Nyumbani Hotel
+            </strong>
+
+            <span id="roleHeader"></span>
+
+        </div>
+
+    </div>
+
+
+    <nav>
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="feedback.html">
+            Feedback
+        </a>
+
+        <a href="complaints.html">
+            Complaints
+        </a>
+
+        <a href="reports.html">
+            Reports
+        </a>
+
+        <a href="ai-insights.html">
+            AI Insights
+        </a>
+
+        <a
+            href="staff.html"
+            class="admin-only"
+        >
+            Staff
+        </a>
+
+        <a
+            href="settings.html"
+            class="admin-only"
+        >
+            Settings
+        </a>
+
+        <button
+            id="logoutBtn"
+            class="link-btn"
+        >
+            Logout
+        </button>
+
+    </nav>
+
+</header>
+
+
+<main class="admin-main">
+
+    <div class="page-title-row">
+
+        <div>
+
+            <h1>
+                AI Insights
+            </h1>
+
+            <p class="muted">
+                Automatic analysis of guest comments.
+                Early results use the rule-based fallback until trained
+                PyTorch/TensorFlow models are deployed.
+            </p>
+
+        </div>
+
+
+        <button
+            id="refreshAI"
+            type="button"
+            class="secondary-btn"
+        >
+            Refresh
+        </button>
+
+    </div>
+
+
+    <p
+        id="aiMessage"
+        class="form-message"
+    ></p>
+
+
+    <!-- =================================================
+         AI STATISTICS
+    ================================================== -->
+
+    <section class="stats-grid">
+
+        <article class="stat-card">
+
+            <span>
+                Positive
+            </span>
+
+            <strong id="aiPositive">
+                0
+            </strong>
+
+        </article>
+
+
+        <article class="stat-card">
+
+            <span>
+                Neutral
+            </span>
+
+            <strong id="aiNeutral">
+                0
+            </strong>
+
+        </article>
+
+
+        <article class="stat-card">
+
+            <span>
+                Negative
+            </span>
+
+            <strong id="aiNegative">
+                0
+            </strong>
+
+        </article>
+
+
+        <article class="stat-card">
+
+            <span>
+                High Urgency
+            </span>
+
+            <strong id="aiHigh">
+                0
+            </strong>
+
+        </article>
+
+
+        <article class="stat-card">
+
+            <span>
+                AI Analyzed
+            </span>
+
+            <strong id="aiTotal">
+                0
+            </strong>
+
+        </article>
+
+    </section>
+
+
+    <!-- =================================================
+         DEPARTMENT SIGNALS
+    ================================================== -->
+
+    <section class="card">
+
+        <h2>
+            Department Signals
+        </h2>
+
+        <div id="deptSignals">
+
+            <p>
+                Loading AI analysis...
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         LATEST AI ANALYSIS
+    ================================================== -->
+
+    <section
+        class="card"
+        style="margin-top:18px"
+    >
+
+        <h2>
+            Latest AI Analysis
+        </h2>
+
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Guest
+                        </th>
+
+                        <th>
+                            Comment
+                        </th>
+
+                        <th>
+                            Sentiment
+                        </th>
+
+                        <th>
+                            Department
+                        </th>
+
+                        <th>
+                            Issue
+                        </th>
+
+                        <th>
+                            Urgency
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="aiTableBody">
+
+                    <tr>
+
+                        <td colspan="7">
+                            Loading AI-analyzed feedback...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     SUPABASE LIBRARY
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<!-- =====================================================
+     NYUMBANI SUPABASE CONNECTION
+===================================================== -->
+
+<script src="../js/supabase.js"></script>
+
+
+<!-- =====================================================
+     STAFF AUTHENTICATION
+===================================================== -->
+
+<script src="../js/auth.js"></script>
+
+
+<!-- =====================================================
+     AI INSIGHTS LOGIC
+===================================================== -->
+
+<script>
+
+function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+    }
+
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+
+function formatDate(value) {
+
+    if (!value) {
+        return "-";
+    }
+
+
+    try {
+
+        return new Date(value)
+            .toLocaleString();
+
+    }
+
+    catch {
+
+        return value;
+    }
+}
+
+
+
+async function loadAIInsights() {
+
+    const message =
+        document.getElementById(
+            "aiMessage"
+        );
+
+
+    const tableBody =
+        document.getElementById(
+            "aiTableBody"
+        );
+
+
+    const departments =
+        document.getElementById(
+            "deptSignals"
+        );
+
+
+    if (message) {
+
+        message.textContent =
+            "Loading AI insights...";
+
+        message.className =
+            "form-message";
+    }
+
+
+    if (tableBody) {
+
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="7">
+                    Loading AI-analyzed feedback...
+                </td>
+            </tr>
+        `;
+    }
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await window
+                .nyumbaniSupabase
+                .from("feedback")
+                .select(`
+                    id,
+                    created_at,
+                    name,
+                    comments,
+                    ai_sentiment,
+                    ai_department,
+                    ai_issue_type,
+                    ai_urgency,
+                    ai_engine
+                `)
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                );
+
+
+        if (error) {
+
+            console.error(
+                "AI insights loading error:",
+                error
+            );
+
+
+            if (message) {
+
+                message.textContent =
+                    "Unable to load AI insights.";
+
+                message.className =
+                    "form-message error";
+            }
+
+
+            if (tableBody) {
+
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="7">
+                            Unable to load AI analysis.
+                        </td>
+                    </tr>
+                `;
+            }
+
+
+            return;
+        }
+
+
+        const allItems =
+            data || [];
+
+
+        const items =
+            allItems.filter(
+                item =>
+                    item.ai_sentiment ||
+                    item.ai_department ||
+                    item.ai_issue_type ||
+                    item.ai_urgency ||
+                    item.ai_engine
+            );
+
+
+        const positive =
+            items.filter(
+                item =>
+                    String(
+                        item.ai_sentiment || ""
+                    ).toLowerCase() ===
+                    "positive"
+            ).length;
+
+
+        const neutral =
+            items.filter(
+                item =>
+                    String(
+                        item.ai_sentiment || ""
+                    ).toLowerCase() ===
+                    "neutral"
+            ).length;
+
+
+        const negative =
+            items.filter(
+                item =>
+                    String(
+                        item.ai_sentiment || ""
+                    ).toLowerCase() ===
+                    "negative"
+            ).length;
+
+
+        const highUrgency =
+            items.filter(
+                item =>
+                    String(
+                        item.ai_urgency || ""
+                    ).toLowerCase() ===
+                    "high"
+            ).length;
+
+
+        document.getElementById(
+            "aiPositive"
+        ).textContent =
+            positive;
+
+
+        document.getElementById(
+            "aiNeutral"
+        ).textContent =
+            neutral;
+
+
+        document.getElementById(
+            "aiNegative"
+        ).textContent =
+            negative;
+
+
+        document.getElementById(
+            "aiHigh"
+        ).textContent =
+            highUrgency;
+
+
+        document.getElementById(
+            "aiTotal"
+        ).textContent =
+            items.length;
+
+
+        // ==============================================
+        // DEPARTMENT SIGNALS
+        // ==============================================
+
+        const departmentCounts = {};
+
+
+        items.forEach(
+            item => {
+
+                const department =
+                    item.ai_department &&
+                    item.ai_department.trim()
+                        ? item.ai_department.trim()
+                        : "General";
+
+
+                departmentCounts[
+                    department
+                ] =
+                    (
+                        departmentCounts[
+                            department
+                        ] || 0
+                    ) + 1;
+            }
+        );
+
+
+        const departmentEntries =
+            Object.entries(
+                departmentCounts
+            )
+            .sort(
+                (a, b) =>
+                    b[1] - a[1]
+            );
+
+
+        if (departments) {
+
+            departments.innerHTML =
+                departmentEntries.length
+                    ? departmentEntries
+                        .map(
+                            ([department, count]) => `
+                                <div class="category-box">
+
+                                    <h3>
+                                        ${escapeHtml(
+                                            department
+                                        )}
+                                    </h3>
+
+                                    <strong>
+                                        ${count}
+                                    </strong>
+
+                                    feedback item(s)
+
+                                </div>
+                            `
+                        )
+                        .join("")
+                    : `
+                        <p>
+                            No AI-analyzed feedback yet.
+                        </p>
+                    `;
+        }
+
+
+        // ==============================================
+        // LATEST AI TABLE
+        // ==============================================
+
+        if (tableBody) {
+
+            tableBody.innerHTML =
+                items.length
+                    ? items
+                        .slice(
+                            0,
+                            50
+                        )
+                        .map(
+                            item => `
+                                <tr>
+
+                                    <td>
+                                        ${escapeHtml(
+                                            formatDate(
+                                                item.created_at
+                                            )
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${escapeHtml(
+                                            item.name ||
+                                            "Anonymous"
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${escapeHtml(
+                                            item.comments ||
+                                            "-"
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${escapeHtml(
+                                            item.ai_sentiment ||
+                                            "-"
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${escapeHtml(
+                                            item.ai_department ||
+                                            "General"
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${escapeHtml(
+                                            item.ai_issue_type ||
+                                            "-"
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${escapeHtml(
+                                            item.ai_urgency ||
+                                            "-"
+                                        )}
+                                    </td>
+
+                                </tr>
+                            `
+                        )
+                        .join("")
+                    : `
+                        <tr>
+
+                            <td colspan="7">
+                                No AI-analyzed feedback yet.
+                            </td>
+
+                        </tr>
+                    `;
+        }
+
+
+        if (message) {
+
+            message.textContent = "";
+
+            message.className =
+                "form-message";
+        }
+
+
+        console.log(
+            "AI Insights loaded:",
+            items.length
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Unexpected AI Insights error:",
+            error
+        );
+
+
+        if (message) {
+
+            message.textContent =
+                "Unable to load AI insights.";
+
+            message.className =
+                "form-message error";
+        }
+    }
+}
+
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function () {
+
+        await loadAIInsights();
+
+
+        const refreshButton =
+            document.getElementById(
+                "refreshAI"
+            );
+
+
+        if (refreshButton) {
+
+            refreshButton.addEventListener(
+                "click",
+                async function () {
+
+                    await loadAIInsights();
+                }
+            );
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

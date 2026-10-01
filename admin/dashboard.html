@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Nyumbani Hotel Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+</head>
+
+<body>
+
+<header class="admin-header">
+
+    <div class="admin-brand">
+
+        <img
+            src="../assets/logo.png"
+            alt="Nyumbani Hotel"
+        >
+
+        <div>
+            <strong>
+                Nyumbani Hotel
+            </strong>
+
+            <span id="roleHeader">
+            </span>
+        </div>
+
+    </div>
+
+
+    <nav>
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="feedback.html">
+            Feedback
+        </a>
+
+        <a href="complaints.html">
+            Complaints
+        </a>
+
+        <a href="reports.html">
+            Reports
+        </a>
+
+        <a href="ai-insights.html">
+            AI Insights
+        </a>
+
+        <a
+            href="staff.html"
+            class="admin-only"
+        >
+            Staff
+        </a>
+
+        <a
+            href="settings.html"
+            class="admin-only"
+        >
+            Settings
+        </a>
+
+        <button
+            id="logoutBtn"
+            class="link-btn"
+        >
+            Logout
+        </button>
+
+    </nav>
+
+</header>
+
+
+<main class="admin-main">
+
+    <h1>
+        Dashboard
+    </h1>
+
+
+    <!-- DASHBOARD STATISTICS -->
+
+    <section class="stats-grid">
+
+        <article class="stat-card">
+
+            <span>
+                Total Feedback
+            </span>
+
+            <strong id="totalFeedback">
+                0
+            </strong>
+
+        </article>
+
+
+        <article class="stat-card">
+
+            <span>
+                Residents
+            </span>
+
+            <strong id="residentCount">
+                0
+            </strong>
+
+        </article>
+
+
+        <article class="stat-card">
+
+            <span>
+                Non-Residents
+            </span>
+
+            <strong id="nonResidentCount">
+                0
+            </strong>
+
+        </article>
+
+
+        <article class="stat-card">
+
+            <span>
+                Average Rating
+            </span>
+
+            <strong id="averageRating">
+                0.0
+            </strong>
+
+        </article>
+
+
+        <article class="stat-card">
+
+            <span>
+                Open Complaints
+            </span>
+
+            <strong id="openComplaints">
+                0
+            </strong>
+
+        </article>
+
+    </section>
+
+
+    <!-- RECENT FEEDBACK -->
+
+    <section class="card">
+
+        <div class="page-title-row">
+
+            <div>
+
+                <h2>
+                    Recent Feedback
+                </h2>
+
+                <p class="muted">
+                    Latest feedback submitted by guests.
+                </p>
+
+            </div>
+
+
+            <button
+                id="refreshDashboard"
+                class="secondary-btn"
+                type="button"
+            >
+                Refresh
+            </button>
+
+        </div>
+
+
+        <p
+            id="dashboardMessage"
+            class="form-message"
+        ></p>
+
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Date & Time
+                        </th>
+
+                        <th>
+                            Guest Type
+                        </th>
+
+                        <th>
+                            Room / Purpose
+                        </th>
+
+                        <th>
+                            Overall
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="recentFeedbackBody">
+
+                    <tr>
+
+                        <td colspan="5">
+                            Loading feedback...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- SUPABASE LIBRARY -->
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+<!-- NYUMBANI SUPABASE CONNECTION -->
+<script src="../js/supabase.js"></script>
+
+<!-- EXISTING HELPERS -->
+<script src="../js/storage.js"></script>
+
+<!-- STAFF ACCESS / ROLE HANDLING -->
+<script src="../js/auth.js"></script>
+
+<!-- ONLINE DASHBOARD -->
+<script src="../js/dashboard.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Non-Resident Guest Feedback</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<main class="page-shell">
+
+    <section class="card form-card">
+
+        <a href="index.html" class="back-link">
+            ← Back
+        </a>
+
+        <img
+            src="assets/logo.png"
+            class="hotel-logo form-logo"
+            alt="Nyumbani Hotel"
+        >
+
+        <h1>Non-Resident Guest Feedback</h1>
+
+        <p class="muted">
+            For restaurant guests, meetings, conferences, parties,
+            functions and other visits.
+        </p>
+
+        <div class="auto-date">
+            Feedback date and time:
+            <strong id="currentDateTime"></strong>
+        </div>
+
+        <form
+            id="nonResidentForm"
+            data-guest-type="Non-Resident"
+        >
+
+            <div class="form-grid">
+
+                <label>
+                    Name
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Optional"
+                    >
+                </label>
+
+                <label>
+                    Email
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Optional"
+                    >
+                </label>
+
+                <label>
+                    Telephone
+                    <input
+                        type="tel"
+                        name="phone"
+                        placeholder="Optional"
+                    >
+                </label>
+
+                <label>
+                    Visit Purpose
+                    <span class="required">*</span>
+
+                    <select
+                        name="visit_purpose"
+                        required
+                    >
+                        <option value="">
+                            Select purpose
+                        </option>
+
+                        <option>Restaurant</option>
+                        <option>Meeting</option>
+                        <option>Conference</option>
+                        <option>Party</option>
+                        <option>Wedding / Celebration</option>
+                        <option>Bar</option>
+                        <option>Garden Event</option>
+                        <option>Other</option>
+                    </select>
+                </label>
+
+            </div>
+
+            <h3>Kindly rate the following</h3>
+
+            <p class="muted small">
+                Select one answer for every category.
+                Stars appear automatically for interaction only;
+                reports show your selected words.
+            </p>
+
+            <div
+                id="nonResidentRatings"
+                class="rating-list"
+            ></div>
+
+            <label class="full-width">
+                Other Comments / Suggestions
+
+                <textarea
+                    name="comments"
+                    rows="5"
+                    placeholder="Share your comments or suggestions..."
+                ></textarea>
+            </label>
+
+            <button
+                type="submit"
+                class="primary-btn wide-btn"
+            >
+                Submit Feedback
+            </button>
+
+            <p
+                id="formMessage"
+                class="form-message"
+            ></p>
+
+        </form>
+
+    </section>
+
+</main>
+
+
+<!-- SUPABASE JAVASCRIPT LIBRARY -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- NYUMBANI SUPABASE CONNECTION -->
+<script src="js/supabase.js"></script>
+
+<!-- LOCAL STORAGE / HELPERS -->
+<script src="js/storage.js"></script>
+
+<!-- AI ANALYSIS -->
+<script src="js/ai.js"></script>
+
+<!-- FEEDBACK SYSTEM -->
+<script src="js/feedback.js"></script>
+
+
+</body>
+</html>

@@ -1,63 +1,419 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Nyumbani Hotel Feedback</title>
-<link rel="stylesheet" href="css/style.css">
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>
+        Nyumbani Hotel Feedback
+    </title>
+
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+
+    <!-- =====================================================
+         PWA SETTINGS
+    ===================================================== -->
+
+    <link
+        rel="manifest"
+        href="manifest.json"
+    >
+
+    <meta
+        name="theme-color"
+        content="#7a1f2b"
+    >
+
+    <meta
+        name="mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="default"
+    >
+
+    <meta
+        name="apple-mobile-web-app-title"
+        content="Nyumbani Feedback"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="assets/icon-192.png"
+    >
+
 </head>
+
+
 <body>
+
+
 <main class="page-shell">
-<section class="card hero-card">
-  <div class="hero-photo">
-    <div class="hero-overlay-content">
-      <img src="assets/logo.png" class="hotel-logo hero-logo" alt="Nyumbani Hotel logo">
-      <h1>Nyumbani Hotel Kampala</h1>
-      <p>Your Home Away From Home in Kampala.</p>
-    </div>
-  </div>
 
-  <h2>We Value Your Feedback</h2>
-  <p>Tell us about your experience.</p>
 
-  <div class="choice-grid">
-    <a class="choice-card" href="resident.html">
-      <span class="choice-icon">🛏️</span>
-      <strong>I Stayed at the Hotel</strong>
-      <small>Resident Guest</small>
-    </a>
-    <a class="choice-card" href="nonresident.html">
-      <span class="choice-icon">🎉</span>
-      <strong>I Visited the Hotel</strong>
-      <small>Restaurant • Meeting • Conference • Party • Function</small>
-    </a>
-  </div>
+    <section class="card hero-card">
 
-  <button id="staffAccessBtn" class="staff-link-btn">Staff Login</button>
-</section>
+
+        <div class="hero-photo">
+
+
+            <div class="hero-overlay-content">
+
+
+                <img
+                    src="assets/logo.png"
+                    class="hotel-logo hero-logo"
+                    alt="Nyumbani Hotel logo"
+                >
+
+
+                <h1>
+                    Nyumbani Hotel Kampala
+                </h1>
+
+
+                <p>
+                    Your Home Away From Home in Kampala.
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <h2>
+            We Value Your Feedback
+        </h2>
+
+
+        <p>
+            Tell us about your experience.
+        </p>
+
+
+
+        <div class="choice-grid">
+
+
+            <a
+                class="choice-card"
+                href="resident.html"
+            >
+
+                <span class="choice-icon">
+                    🛏️
+                </span>
+
+                <strong>
+                    I Stayed at the Hotel
+                </strong>
+
+                <small>
+                    Resident Guest
+                </small>
+
+            </a>
+
+
+
+            <a
+                class="choice-card"
+                href="nonresident.html"
+            >
+
+                <span class="choice-icon">
+                    🎉
+                </span>
+
+                <strong>
+                    I Visited the Hotel
+                </strong>
+
+                <small>
+                    Restaurant • Meeting • Conference • Party • Function
+                </small>
+
+            </a>
+
+
+        </div>
+
+
+
+        <button
+            id="staffAccessBtn"
+            class="staff-link-btn"
+            type="button"
+        >
+            Staff Login
+        </button>
+
+
+    </section>
+
+
 </main>
 
-<div id="roleModal" class="modal" aria-hidden="true">
-  <div class="modal-panel">
-    <button id="closeRoleModal" class="modal-close" aria-label="Close">×</button>
-    <img src="assets/logo.png" class="modal-logo" alt="Nyumbani Hotel">
-    <h2>Staff Access</h2>
-    <p>Please choose your role.</p>
-    <div class="role-grid">
-      <a href="admin/login.html?role=Manager" class="role-card">👔 <span>Manager</span></a>
-      <a href="admin/login.html?role=Receptionist" class="role-card">🛎️ <span>Receptionist</span></a>
-      <a href="admin/login.html?role=System%20Admin" class="role-card">⚙️ <span>System Admin</span></a>
+
+
+<!-- =====================================================
+     STAFF ROLE MODAL
+===================================================== -->
+
+<div
+    id="roleModal"
+    class="modal"
+    aria-hidden="true"
+>
+
+
+    <div class="modal-panel">
+
+
+        <button
+            id="closeRoleModal"
+            class="modal-close"
+            aria-label="Close"
+            type="button"
+        >
+            ×
+        </button>
+
+
+        <img
+            src="assets/logo.png"
+            class="modal-logo"
+            alt="Nyumbani Hotel"
+        >
+
+
+        <h2>
+            Staff Access
+        </h2>
+
+
+        <p>
+            Please choose your role.
+        </p>
+
+
+
+        <div class="role-grid">
+
+
+            <a
+                href="admin/login.html?role=Manager"
+                class="role-card"
+            >
+                👔
+                <span>
+                    Manager
+                </span>
+            </a>
+
+
+
+            <a
+                href="admin/login.html?role=Receptionist"
+                class="role-card"
+            >
+                🛎️
+                <span>
+                    Receptionist
+                </span>
+            </a>
+
+
+
+            <a
+                href="admin/login.html?role=System%20Admin"
+                class="role-card"
+            >
+                ⚙️
+                <span>
+                    System Admin
+                </span>
+            </a>
+
+
+        </div>
+
+
+
+        <button
+            id="cancelRoleModal"
+            class="secondary-btn"
+            type="button"
+        >
+            Cancel
+        </button>
+
+
     </div>
-    <button id="cancelRoleModal" class="secondary-btn">Cancel</button>
-  </div>
+
+
 </div>
 
+
+
+<!-- =====================================================
+     ROLE MODAL SCRIPT
+===================================================== -->
+
 <script>
-const modal=document.getElementById('roleModal');
-function openRole(){modal.classList.add('show');modal.setAttribute('aria-hidden','false')}
-function closeRole(){modal.classList.remove('show');modal.setAttribute('aria-hidden','true')}
-document.getElementById('staffAccessBtn').addEventListener('click',openRole);
-document.getElementById('closeRoleModal').addEventListener('click',closeRole);
-document.getElementById('cancelRoleModal').addEventListener('click',closeRole);
-modal.addEventListener('click',e=>{if(e.target===modal)closeRole()});
+
+const modal =
+    document.getElementById(
+        "roleModal"
+    );
+
+
+function openRole() {
+
+    modal.classList.add(
+        "show"
+    );
+
+    modal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+}
+
+
+function closeRole() {
+
+    modal.classList.remove(
+        "show"
+    );
+
+    modal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+}
+
+
+document
+    .getElementById(
+        "staffAccessBtn"
+    )
+    .addEventListener(
+        "click",
+        openRole
+    );
+
+
+document
+    .getElementById(
+        "closeRoleModal"
+    )
+    .addEventListener(
+        "click",
+        closeRole
+    );
+
+
+document
+    .getElementById(
+        "cancelRoleModal"
+    )
+    .addEventListener(
+        "click",
+        closeRole
+    );
+
+
+modal.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target === modal
+        ) {
+
+            closeRole();
+
+        }
+
+    }
+);
+
 </script>
-</body></html>
+
+
+
+<!-- =====================================================
+     SERVICE WORKER REGISTRATION
+===================================================== -->
+
+<script>
+
+if (
+    "serviceWorker" in navigator
+) {
+
+    window.addEventListener(
+        "load",
+        async function () {
+
+            try {
+
+                const registration =
+                    await navigator
+                        .serviceWorker
+                        .register(
+                            "./service-worker.js"
+                        );
+
+
+                console.log(
+                    "Nyumbani Service Worker registered:",
+                    registration.scope
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Service Worker registration failed:",
+                    error
+                );
+
+            }
+
+        }
+    );
+
+}
+
+</script>
+
+
+</body>
+
+</html>

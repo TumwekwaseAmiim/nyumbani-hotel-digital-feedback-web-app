@@ -2,24 +2,14 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Feedback Reports</title>
 
-    <link
-        rel="stylesheet"
-        href="../css/style.css"
-    >
-
+    <link rel="stylesheet" href="../css/style.css">
 
     <style>
-
         .report-rating-list {
             margin: 10px 0 0;
             padding-left: 20px;
@@ -35,11 +25,7 @@
 
         .report-meta {
             display: grid;
-            grid-template-columns:
-                repeat(
-                    auto-fit,
-                    minmax(180px, 1fr)
-                );
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 10px;
             margin: 15px 0;
         }
@@ -69,9 +55,7 @@
             border-radius: 8px;
         }
 
-
         @media print {
-
             .admin-header,
             .report-filter-card,
             .report-actions,
@@ -96,11 +80,8 @@
             .report-section {
                 break-inside: avoid;
             }
-
         }
-
     </style>
-
 </head>
 
 
@@ -169,6 +150,10 @@
             Settings
         </a>
 
+        <a href="change-password.html">
+            Change Password
+        </a>
+
         <button
             id="logoutBtn"
             class="link-btn"
@@ -180,7 +165,6 @@
     </nav>
 
 </header>
-
 
 
 <!-- =====================================================
@@ -237,13 +221,11 @@
     ></p>
 
 
-
     <!-- =================================================
          FILTERS
     ================================================== -->
 
     <section class="card report-filter-card">
-
 
         <div class="report-filters">
 
@@ -309,12 +291,9 @@
 
             </label>
 
-
         </div>
 
-
     </section>
-
 
 
     <!-- =================================================
@@ -350,15 +329,13 @@
         </section>
 
 
-
-        <!-- INDIVIDUAL GUEST REPORT -->
+        <!-- INDIVIDUAL REPORT -->
 
         <section
             id="individualReport"
             class="card report-section"
             style="display:none"
         ></section>
-
 
 
         <!-- CATEGORY SUMMARY -->
@@ -370,13 +347,10 @@
             </h2>
 
             <div id="categorySummary">
-
                 Loading report...
-
             </div>
 
         </section>
-
 
 
         <!-- DETAILED FEEDBACK -->
@@ -388,9 +362,7 @@
             </h2>
 
             <div id="detailedReport">
-
                 Loading feedback...
-
             </div>
 
         </section>
@@ -400,7 +372,6 @@
 
 
 </main>
-
 
 
 <!-- =====================================================
@@ -426,7 +397,6 @@
 <script src="../js/auth.js"></script>
 
 
-
 <!-- =====================================================
      REPORT SYSTEM
 ===================================================== -->
@@ -441,7 +411,6 @@
 let reportFeedback = [];
 
 
-
 // =====================================================
 // SAFE HTML
 // =====================================================
@@ -452,10 +421,8 @@ function escapeReportHtml(value) {
         value === null ||
         value === undefined
     ) {
-
         return "";
     }
-
 
     return String(value)
         .replace(/&/g, "&amp;")
@@ -464,7 +431,6 @@ function escapeReportHtml(value) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
-
 
 
 // =====================================================
@@ -477,20 +443,17 @@ function reportDate(value) {
         return "-";
     }
 
-
     try {
 
         return new Date(value)
             .toLocaleString();
 
-    }
-
-    catch {
+    } catch {
 
         return value;
+
     }
 }
-
 
 
 // =====================================================
@@ -504,14 +467,11 @@ function reportRatings(item) {
             item.feedback_ratings
         )
     ) {
-
         return item.feedback_ratings;
     }
 
-
     return [];
 }
-
 
 
 // =====================================================
@@ -525,10 +485,8 @@ function getReportId() {
             window.location.search
         );
 
-
     return params.get("id");
 }
-
 
 
 // =====================================================
@@ -613,7 +571,6 @@ async function loadReportData() {
                     "form-message error";
             }
 
-
             return;
         }
 
@@ -623,7 +580,6 @@ async function loadReportData() {
 
 
         populateCategories();
-
 
         renderReports();
 
@@ -656,7 +612,6 @@ async function loadReportData() {
         }
     }
 }
-
 
 
 // =====================================================
@@ -699,6 +654,7 @@ function populateCategories() {
                                 rating.category
                             );
                         }
+
                     }
                 );
         }
@@ -748,7 +704,6 @@ function populateCategories() {
 }
 
 
-
 // =====================================================
 // FILTER DATA
 // =====================================================
@@ -787,10 +742,7 @@ function getFilteredReportItems() {
         ).value;
 
 
-
-    // -----------------------------------------
     // INDIVIDUAL REPORT
-    // -----------------------------------------
 
     if (individualId) {
 
@@ -803,16 +755,14 @@ function getFilteredReportItems() {
     }
 
 
-
-    // -----------------------------------------
     // FROM DATE
-    // -----------------------------------------
 
     if (from) {
 
         const start =
             new Date(
-                from + "T00:00:00"
+                from +
+                "T00:00:00"
             );
 
 
@@ -826,16 +776,14 @@ function getFilteredReportItems() {
     }
 
 
-
-    // -----------------------------------------
     // TO DATE
-    // -----------------------------------------
 
     if (to) {
 
         const end =
             new Date(
-                to + "T23:59:59.999"
+                to +
+                "T23:59:59.999"
             );
 
 
@@ -849,10 +797,7 @@ function getFilteredReportItems() {
     }
 
 
-
-    // -----------------------------------------
     // GUEST TYPE
-    // -----------------------------------------
 
     if (guestType) {
 
@@ -865,16 +810,14 @@ function getFilteredReportItems() {
     }
 
 
-
-    // -----------------------------------------
     // CATEGORY
-    // -----------------------------------------
 
     if (category) {
 
         items =
             items.filter(
                 item =>
+
                     reportRatings(item)
                         .some(
                             rating =>
@@ -887,7 +830,6 @@ function getFilteredReportItems() {
 
     return items;
 }
-
 
 
 // =====================================================
@@ -907,7 +849,6 @@ function ratingsForReport(item) {
 
 
     if (!selectedCategory) {
-
         return ratings;
     }
 
@@ -918,7 +859,6 @@ function ratingsForReport(item) {
             selectedCategory
     );
 }
-
 
 
 // =====================================================
@@ -972,7 +912,6 @@ function ratingListHtml(item) {
 }
 
 
-
 // =====================================================
 // INDIVIDUAL REPORT
 // =====================================================
@@ -991,14 +930,13 @@ function renderIndividualReport(
         getReportId();
 
 
-    if (
-        !individualId
-    ) {
+    if (!individualId) {
 
         section.style.display =
             "none";
 
-        section.innerHTML = "";
+        section.innerHTML =
+            "";
 
         return;
     }
@@ -1038,11 +976,13 @@ function renderIndividualReport(
 
             ? (
                 item.room_number
+
                     ? `Room ${
                         escapeReportHtml(
                             item.room_number
                         )
                     }`
+
                     : "-"
             )
 
@@ -1170,7 +1110,6 @@ function renderIndividualReport(
 
             </div>
 
-
         </div>
 
 
@@ -1188,12 +1127,10 @@ function renderIndividualReport(
         </h3>
 
         <p>
-
             ${escapeReportHtml(
                 item.comments ||
                 "No comments provided."
             )}
-
         </p>
 
 
@@ -1232,7 +1169,9 @@ function renderIndividualReport(
                             AI Analysis
                         </h3>
 
+
                         <p>
+
                             <strong>
                                 Sentiment:
                             </strong>
@@ -1241,9 +1180,12 @@ function renderIndividualReport(
                                 item.ai_sentiment ||
                                 "-"
                             )}
+
                         </p>
 
+
                         <p>
+
                             <strong>
                                 Department:
                             </strong>
@@ -1252,9 +1194,12 @@ function renderIndividualReport(
                                 item.ai_department ||
                                 "-"
                             )}
+
                         </p>
 
+
                         <p>
+
                             <strong>
                                 Issue:
                             </strong>
@@ -1263,9 +1208,12 @@ function renderIndividualReport(
                                 item.ai_issue_type ||
                                 "-"
                             )}
+
                         </p>
 
+
                         <p>
+
                             <strong>
                                 Urgency:
                             </strong>
@@ -1274,6 +1222,7 @@ function renderIndividualReport(
                                 item.ai_urgency ||
                                 "-"
                             )}
+
                         </p>
 
                     </div>
@@ -1285,7 +1234,6 @@ function renderIndividualReport(
 
     `;
 }
-
 
 
 // =====================================================
@@ -1302,7 +1250,8 @@ function renderCategorySummary(
         );
 
 
-    const summary = {};
+    const summary =
+        {};
 
 
     items.forEach(
@@ -1331,11 +1280,17 @@ function renderCategorySummary(
                             summary[
                                 category
                             ] = {
+
                                 "Very Good": 0,
+
                                 "Good": 0,
+
                                 "Average": 0,
+
                                 "Poor": 0,
+
                                 "Very Poor": 0
+
                             };
                         }
 
@@ -1351,6 +1306,7 @@ function renderCategorySummary(
                                 category
                             ][answer] += 1;
                         }
+
                     }
                 );
         }
@@ -1484,7 +1440,6 @@ function renderCategorySummary(
 }
 
 
-
 // =====================================================
 // DETAILED REPORT
 // =====================================================
@@ -1527,11 +1482,13 @@ function renderDetailedReport(
 
                         ? (
                             item.room_number
+
                                 ? `Room ${
                                     escapeReportHtml(
                                         item.room_number
                                     )
                                 }`
+
                                 : "-"
                         )
 
@@ -1549,12 +1506,10 @@ function renderDetailedReport(
 
 
                         <h3>
-
                             ${escapeReportHtml(
                                 item.name ||
                                 "Anonymous Guest"
                             )}
-
                         </h3>
 
 
@@ -1666,7 +1621,6 @@ function renderDetailedReport(
 }
 
 
-
 // =====================================================
 // RENDER EVERYTHING
 // =====================================================
@@ -1701,7 +1655,6 @@ function renderReports() {
 }
 
 
-
 // =====================================================
 // FILTER EVENTS
 // =====================================================
@@ -1711,8 +1664,11 @@ function setupReportFilters() {
     const controls = [
 
         "fromDate",
+
         "toDate",
+
         "reportGuestType",
+
         "reportCategory"
 
     ];
@@ -1741,7 +1697,6 @@ function setupReportFilters() {
 }
 
 
-
 // =====================================================
 // CLEAR FILTERS
 // =====================================================
@@ -1768,9 +1723,6 @@ function clearReportFilters() {
     ).value = "";
 
 
-    // Remove individual feedback ID
-    // from the URL.
-
     window.history.replaceState(
         {},
         "",
@@ -1780,7 +1732,6 @@ function clearReportFilters() {
 
     renderReports();
 }
-
 
 
 // =====================================================
@@ -1802,6 +1753,7 @@ document.addEventListener(
             function () {
 
                 window.print();
+
             }
         );
 
@@ -1818,6 +1770,7 @@ document.addEventListener(
 
     }
 );
+
 
 </script>
 

@@ -3,11 +3,18 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
 
     <title>Resident Guest Feedback</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
 </head>
 
 <body>
@@ -16,9 +23,13 @@
 
     <section class="card form-card">
 
-        <a href="index.html" class="back-link">
+        <a
+            href="index.html"
+            class="back-link"
+        >
             ← Back
         </a>
+
 
         <img
             src="assets/logo.png"
@@ -26,16 +37,22 @@
             alt="Nyumbani Hotel"
         >
 
-        <h1>Resident Guest Feedback</h1>
+
+        <h1>
+            Resident Guest Feedback
+        </h1>
+
 
         <p class="muted">
             For guests who stayed/slept at Nyumbani Hotel.
         </p>
 
+
         <div class="auto-date">
             Feedback date and time:
             <strong id="currentDateTime"></strong>
         </div>
+
 
         <form
             id="residentForm"
@@ -45,6 +62,7 @@
             <div class="form-grid">
 
                 <label>
+
                     Name
 
                     <input
@@ -52,9 +70,12 @@
                         name="name"
                         placeholder="Optional"
                     >
+
                 </label>
 
+
                 <label>
+
                     Email
 
                     <input
@@ -62,9 +83,12 @@
                         name="email"
                         placeholder="Optional"
                     >
+
                 </label>
 
+
                 <label>
+
                     Telephone
 
                     <input
@@ -72,9 +96,12 @@
                         name="phone"
                         placeholder="Optional"
                     >
+
                 </label>
 
+
                 <label>
+
                     Room Number
                     <span class="required">*</span>
 
@@ -84,9 +111,12 @@
                         required
                         placeholder="Required"
                     >
+
                 </label>
 
+
                 <label class="full-width">
+
                     Booking Type
 
                     <select name="booking_type">
@@ -95,19 +125,20 @@
                             Select booking type
                         </option>
 
-                        <option>
+                        <option value="Walk-in">
                             Walk-in
                         </option>
 
-                        <option>
+                        <option value="Reserved privately">
                             Reserved privately
                         </option>
 
-                        <option>
+                        <option value="Reserved under company">
                             Reserved under company
                         </option>
 
                     </select>
+
                 </label>
 
             </div>
@@ -117,10 +148,14 @@
                 Kindly rate the following
             </h3>
 
+
             <p class="muted small">
+
                 Select one answer for every category.
+
                 Stars appear automatically for interaction only;
                 reports show your selected words.
+
             </p>
 
 
@@ -146,6 +181,7 @@
             <button
                 type="submit"
                 class="primary-btn wide-btn"
+                id="submitFeedbackButton"
             >
                 Submit Feedback
             </button>
@@ -156,7 +192,6 @@
                 class="form-message"
             ></p>
 
-
         </form>
 
     </section>
@@ -164,20 +199,188 @@
 </main>
 
 
-<!-- SUPABASE JAVASCRIPT LIBRARY -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- ================================================= -->
+<!-- GLOBAL ERROR DIAGNOSTICS                           -->
+<!-- ================================================= -->
 
-<!-- NYUMBANI SUPABASE CONNECTION -->
+<script>
+
+window.addEventListener(
+    "error",
+    function (event) {
+
+        console.error(
+            "GLOBAL JAVASCRIPT ERROR:",
+            event.error || event.message
+        );
+
+    }
+);
+
+
+window.addEventListener(
+    "unhandledrejection",
+    function (event) {
+
+        console.error(
+            "UNHANDLED PROMISE ERROR:",
+            event.reason
+        );
+
+    }
+);
+
+
+console.log(
+    "Resident feedback page loaded."
+);
+
+</script>
+
+
+<!-- ================================================= -->
+<!-- SUPABASE JAVASCRIPT LIBRARY                       -->
+<!-- ================================================= -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+
+<!-- ================================================= -->
+<!-- NYUMBANI SUPABASE CONNECTION                      -->
+<!-- ================================================= -->
+
 <script src="js/supabase.js"></script>
 
-<!-- LOCAL STORAGE / HELPER FUNCTIONS -->
+
+<!-- ================================================= -->
+<!-- LOCAL STORAGE / HELPER FUNCTIONS                  -->
+<!-- ================================================= -->
+
 <script src="js/storage.js"></script>
 
-<!-- AI ANALYSIS -->
+
+<!-- ================================================= -->
+<!-- AI ANALYSIS                                       -->
+<!-- ================================================= -->
+
 <script src="js/ai.js"></script>
 
-<!-- FEEDBACK SYSTEM -->
+
+<!-- ================================================= -->
+<!-- FEEDBACK SYSTEM                                   -->
+<!-- ================================================= -->
+
 <script src="js/feedback.js"></script>
+
+
+<!-- ================================================= -->
+<!-- PAGE DIAGNOSTICS                                  -->
+<!-- ================================================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        console.log(
+            "Resident feedback DOM ready."
+        );
+
+
+        /*
+        ---------------------------------------------
+        Check Supabase
+        ---------------------------------------------
+        */
+
+        if (typeof window.supabase === "undefined") {
+
+            console.error(
+                "Supabase library did not load."
+            );
+
+        } else {
+
+            console.log(
+                "Supabase JavaScript library loaded."
+            );
+
+        }
+
+
+        /*
+        ---------------------------------------------
+        Check Nyumbani Supabase client
+        ---------------------------------------------
+        */
+
+        if (typeof nyumbaniSupabase === "undefined") {
+
+            console.warn(
+                "nyumbaniSupabase variable was not found."
+            );
+
+        } else {
+
+            console.log(
+                "Nyumbani Supabase client detected."
+            );
+
+        }
+
+
+        /*
+        ---------------------------------------------
+        Check form
+        ---------------------------------------------
+        */
+
+        const form =
+            document.getElementById(
+                "residentForm"
+            );
+
+
+        if (!form) {
+
+            console.error(
+                "Resident form was not found."
+            );
+
+            return;
+
+        }
+
+
+        console.log(
+            "Resident feedback form detected."
+        );
+
+
+        /*
+        ---------------------------------------------
+        Log each submission attempt
+        ---------------------------------------------
+        */
+
+        form.addEventListener(
+            "submit",
+            function () {
+
+                console.log(
+                    "Resident feedback submission started..."
+                );
+
+            }
+        );
+
+    }
+);
+
+</script>
 
 
 </body>

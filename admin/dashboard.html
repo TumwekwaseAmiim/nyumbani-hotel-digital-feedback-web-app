@@ -25,12 +25,14 @@
         >
 
         <div>
+
             <strong>
                 Nyumbani Hotel
             </strong>
 
             <span id="roleHeader">
             </span>
+
         </div>
 
     </div>
@@ -72,9 +74,14 @@
             Settings
         </a>
 
+        <a href="change-password.html">
+            Change Password
+        </a>
+
         <button
             id="logoutBtn"
             class="link-btn"
+            type="button"
         >
             Logout
         </button>
@@ -85,6 +92,22 @@
 
 
 <main class="admin-main">
+
+    <!-- BACK TO HOME -->
+
+    <div class="dashboard-top-actions">
+
+        <a
+            href="../index.html"
+            class="back-home-btn"
+        >
+            ← Back to Home
+        </a>
+
+    </div>
+
+
+    <!-- DASHBOARD TITLE -->
 
     <h1>
         Dashboard
@@ -252,21 +275,30 @@
 </main>
 
 
-<!-- SUPABASE LIBRARY -->
+<!-- SUPABASE JAVASCRIPT LIBRARY -->
+
 <script
     src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
 ></script>
 
+
 <!-- NYUMBANI SUPABASE CONNECTION -->
+
 <script src="../js/supabase.js"></script>
 
+
 <!-- EXISTING HELPERS -->
+
 <script src="../js/storage.js"></script>
 
+
 <!-- STAFF ACCESS / ROLE HANDLING -->
+
 <script src="../js/auth.js"></script>
 
+
 <!-- ONLINE DASHBOARD -->
+
 <script src="../js/dashboard.js"></script>
 
 

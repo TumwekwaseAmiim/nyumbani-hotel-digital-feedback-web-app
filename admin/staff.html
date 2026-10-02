@@ -10,7 +10,9 @@
         content="width=device-width, initial-scale=1"
     >
 
-    <title>Staff Management</title>
+    <title>
+        Staff Management
+    </title>
 
     <link
         rel="stylesheet"
@@ -85,6 +87,10 @@
             Settings
         </a>
 
+        <a href="change-password.html">
+            Change Password
+        </a>
+
         <button
             id="logoutBtn"
             class="link-btn"
@@ -96,7 +102,6 @@
     </nav>
 
 </header>
-
 
 
 <!-- =====================================================
@@ -131,7 +136,6 @@
         </button>
 
     </div>
-
 
 
     <!-- =================================================
@@ -171,7 +175,6 @@
                 </label>
 
 
-
                 <label>
 
                     Email
@@ -185,7 +188,6 @@
                 </label>
 
 
-
                 <label>
 
                     Phone
@@ -196,7 +198,6 @@
                     >
 
                 </label>
-
 
 
                 <label>
@@ -229,7 +230,6 @@
                 </label>
 
 
-
                 <label>
 
                     Department
@@ -241,7 +241,6 @@
                     >
 
                 </label>
-
 
 
                 <label>
@@ -280,7 +279,6 @@
         </form>
 
     </section>
-
 
 
     <!-- =================================================
@@ -365,7 +363,6 @@
 </main>
 
 
-
 <!-- =====================================================
      SUPABASE LIBRARY
 ===================================================== -->
@@ -389,13 +386,16 @@
 <script src="../js/auth.js"></script>
 
 
-
 <!-- =====================================================
      STAFF MANAGEMENT
 ===================================================== -->
 
 <script>
 
+
+// =====================================================
+// SAFE HTML
+// =====================================================
 
 function staffEscape(value) {
 
@@ -405,6 +405,7 @@ function staffEscape(value) {
     ) {
 
         return "";
+
     }
 
 
@@ -414,14 +415,20 @@ function staffEscape(value) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+
 }
 
 
+// =====================================================
+// FORMAT DATE
+// =====================================================
 
 function staffDate(value) {
 
     if (!value) {
+
         return "-";
+
     }
 
 
@@ -435,9 +442,10 @@ function staffDate(value) {
     catch {
 
         return value;
-    }
-}
 
+    }
+
+}
 
 
 // =====================================================
@@ -464,13 +472,15 @@ async function verifySystemAdmin() {
             error
         );
 
+
         return false;
+
     }
 
 
     return data === true;
-}
 
+}
 
 
 // =====================================================
@@ -486,7 +496,9 @@ async function loadStaff() {
 
 
     if (!body) {
+
         return;
+
     }
 
 
@@ -512,7 +524,9 @@ async function loadStaff() {
         window.location.href =
             "dashboard.html";
 
+
         return;
+
     }
 
 
@@ -522,7 +536,9 @@ async function loadStaff() {
     } =
         await window
             .nyumbaniSupabase
-            .from("staff_users")
+            .from(
+                "staff_users"
+            )
             .select(`
                 id,
                 full_name,
@@ -561,7 +577,9 @@ async function loadStaff() {
 
         `;
 
+
         return;
+
     }
 
 
@@ -640,8 +658,8 @@ async function loadStaff() {
                 </tr>
 
             `;
-}
 
+}
 
 
 // =====================================================
@@ -676,6 +694,10 @@ async function createStaff(event) {
         );
 
 
+    // =================================================
+    // REQUIRED FIELDS
+    // =================================================
+
     if (
         !formData.full_name ||
         !formData.email ||
@@ -686,12 +708,19 @@ async function createStaff(event) {
         message.textContent =
             "Please complete all required fields.";
 
+
         message.className =
             "form-message error";
 
+
         return;
+
     }
 
+
+    // =================================================
+    // PASSWORD LENGTH
+    // =================================================
 
     if (
         formData.password.length < 8
@@ -700,12 +729,19 @@ async function createStaff(event) {
         message.textContent =
             "Temporary password must contain at least 8 characters.";
 
+
         message.className =
             "form-message error";
 
+
         return;
+
     }
 
+
+    // =================================================
+    // VERIFY SYSTEM ADMIN
+    // =================================================
 
     const isAdmin =
         await verifySystemAdmin();
@@ -716,12 +752,19 @@ async function createStaff(event) {
         message.textContent =
             "Only System Admin can create staff accounts.";
 
+
         message.className =
             "form-message error";
 
+
         return;
+
     }
 
+
+    // =================================================
+    // START
+    // =================================================
 
     button.disabled =
         true;
@@ -734,11 +777,16 @@ async function createStaff(event) {
     message.textContent =
         "Creating secure staff account...";
 
+
     message.className =
         "form-message";
 
 
     try {
+
+        // =================================================
+        // CREATE THROUGH SECURE EDGE FUNCTION
+        // =================================================
 
         const {
             data,
@@ -775,6 +823,10 @@ async function createStaff(event) {
                 );
 
 
+        // =================================================
+        // FUNCTION ERROR
+        // =================================================
+
         if (error) {
 
             console.error(
@@ -786,12 +838,19 @@ async function createStaff(event) {
             message.textContent =
                 "Staff account could not be created.";
 
+
             message.className =
                 "form-message error";
 
+
             return;
+
         }
 
+
+        // =================================================
+        // API ERROR
+        // =================================================
 
         if (
             data &&
@@ -801,15 +860,23 @@ async function createStaff(event) {
             message.textContent =
                 data.error;
 
+
             message.className =
                 "form-message error";
 
+
             return;
+
         }
 
 
+        // =================================================
+        // SUCCESS
+        // =================================================
+
         message.textContent =
             "Staff account created successfully.";
+
 
         message.className =
             "form-message success";
@@ -822,6 +889,7 @@ async function createStaff(event) {
 
     }
 
+
     catch (error) {
 
         console.error(
@@ -833,10 +901,12 @@ async function createStaff(event) {
         message.textContent =
             "Unable to create staff account.";
 
+
         message.className =
             "form-message error";
 
     }
+
 
     finally {
 
@@ -846,9 +916,10 @@ async function createStaff(event) {
 
         button.textContent =
             "Create Staff Account";
-    }
-}
 
+    }
+
+}
 
 
 // =====================================================
@@ -872,6 +943,7 @@ document.addEventListener(
                 "submit",
                 createStaff
             );
+
         }
 
 
@@ -887,6 +959,7 @@ document.addEventListener(
                 "click",
                 loadStaff
             );
+
         }
 
 
@@ -894,6 +967,7 @@ document.addEventListener(
 
     }
 );
+
 
 </script>
 

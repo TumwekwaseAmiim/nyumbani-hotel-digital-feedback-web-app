@@ -81,6 +81,10 @@
             Settings
         </a>
 
+        <a href="change-password.html">
+            Change Password
+        </a>
+
         <button
             id="logoutBtn"
             class="link-btn"
@@ -240,27 +244,43 @@
 
 
 
-<!-- SUPABASE LIBRARY -->
+<!-- =====================================================
+     SUPABASE LIBRARY
+===================================================== -->
 
 <script
     src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
 ></script>
 
 
-<!-- NYUMBANI SUPABASE CONNECTION -->
+
+<!-- =====================================================
+     NYUMBANI SUPABASE CONNECTION
+===================================================== -->
 
 <script src="../js/supabase.js"></script>
 
 
-<!-- REAL STAFF AUTHENTICATION -->
+
+<!-- =====================================================
+     REAL STAFF AUTHENTICATION
+===================================================== -->
 
 <script src="../js/auth.js"></script>
 
 
-<!-- FEEDBACK / DASHBOARD LOGIC -->
+
+<!-- =====================================================
+     FEEDBACK / DASHBOARD LOGIC
+===================================================== -->
 
 <script src="../js/dashboard.js"></script>
 
+
+
+<!-- =====================================================
+     FEEDBACK PAGE REFRESH
+===================================================== -->
 
 <script>
 
@@ -275,7 +295,9 @@ document.addEventListener(
 
 
         if (!refreshButton) {
+
             return;
+
         }
 
 
@@ -296,6 +318,7 @@ document.addEventListener(
 
                     message.className =
                         "form-message";
+
                 }
 
 
@@ -321,6 +344,7 @@ document.addEventListener(
                             },
                             1500
                         );
+
                     }
 
                 }
@@ -340,7 +364,9 @@ document.addEventListener(
 
                         message.className =
                             "form-message error";
+
                     }
+
                 }
 
             }

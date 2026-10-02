@@ -1,85 +1,407 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>System Settings & Reset</title><link rel="stylesheet" href="../css/style.css">
-</head><body>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>
+        System Settings & Reset
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     ADMIN HEADER
+===================================================== -->
+
 <header class="admin-header">
-<div class="admin-brand"><img src="../assets/logo.png" alt="Nyumbani Hotel"><div><strong>Nyumbani Hotel</strong><span id="roleHeader"></span></div></div>
-<nav>
-<a href="dashboard.html">Dashboard</a>
-<a href="feedback.html">Feedback</a>
-<a href="complaints.html">Complaints</a>
-<a href="reports.html">Reports</a>
-<a href="ai-insights.html">AI Insights</a>
-<a href="staff.html" class="admin-only">Staff</a>
-<a href="settings.html" class="admin-only">Settings</a>
-<button id="logoutBtn" class="link-btn">Logout</button>
-</nav></header>
+
+    <div class="admin-brand">
+
+        <img
+            src="../assets/logo.png"
+            alt="Nyumbani Hotel"
+        >
+
+        <div>
+
+            <strong>
+                Nyumbani Hotel
+            </strong>
+
+            <span id="roleHeader"></span>
+
+        </div>
+
+    </div>
+
+
+    <nav>
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="feedback.html">
+            Feedback
+        </a>
+
+        <a href="complaints.html">
+            Complaints
+        </a>
+
+        <a href="reports.html">
+            Reports
+        </a>
+
+        <a href="ai-insights.html">
+            AI Insights
+        </a>
+
+        <a
+            href="staff.html"
+            class="admin-only"
+        >
+            Staff
+        </a>
+
+        <a
+            href="settings.html"
+            class="admin-only"
+        >
+            Settings
+        </a>
+
+        <a href="change-password.html">
+            Change Password
+        </a>
+
+        <button
+            id="logoutBtn"
+            class="link-btn"
+            type="button"
+        >
+            Logout
+        </button>
+
+    </nav>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
 
 <main class="admin-main">
-<div class="page-title-row">
-  <div>
-    <h1>System Settings & Reset</h1>
-    <p class="muted">System Admin only. Export reports before deleting monthly guest data.</p>
-  </div>
-</div>
 
-<section class="card reset-card">
-  <h2>Monthly Close & Reset</h2>
-  <p>This clears current guest feedback, room numbers, names, phone numbers, emails, comments, complaint records and AI analysis from this browser after creating an anonymous monthly summary.</p>
 
-  <div class="reset-stats">
-    <div><span>Current Feedback</span><strong id="resetFeedbackCount">0</strong></div>
-    <div><span>Complaints</span><strong id="resetComplaintCount">0</strong></div>
-    <div><span>Residents</span><strong id="resetResidentCount">0</strong></div>
-    <div><span>Non-Residents</span><strong id="resetNonResidentCount">0</strong></div>
-  </div>
+    <!-- =================================================
+         PAGE TITLE
+    ================================================== -->
 
-  <label class="confirm-check">
-    <input type="checkbox" id="reportSavedCheck">
-    I have printed or saved the monthly report.
-  </label>
+    <div class="page-title-row">
 
-  <label>
-    Type <strong>RESET MONTH</strong> to confirm
-    <input type="text" id="monthlyConfirm" placeholder="RESET MONTH">
-  </label>
+        <div>
 
-  <button id="monthlyResetBtn" class="danger-btn">Archive Summary & Reset Monthly Data</button>
-  <p id="monthlyResetMessage" class="form-message"></p>
-</section>
+            <h1>
+                System Settings & Reset
+            </h1>
 
-<section class="card reset-card">
-  <h2>Staff Account Reset</h2>
-  <p>Use this separately from the monthly guest reset.</p>
+            <p class="muted">
+                System Admin only. Export reports before deleting monthly guest data.
+            </p>
 
-  <div class="danger-grid">
-    <button id="keepAdminResetStaffBtn" class="secondary-btn">Remove Staff Except System Admin</button>
-    <button id="allStaffResetBtn" class="danger-btn">Remove All Staff Accounts</button>
-  </div>
+        </div>
 
-  <p id="staffResetMessage" class="form-message"></p>
-</section>
+    </div>
 
-<section class="card reset-card">
-  <h2>Archived Monthly Summaries</h2>
-  <p class="muted">These summaries contain only aggregate counts, not guest personal details.</p>
-  <div id="archiveList"></div>
-</section>
 
-<section class="card reset-card danger-zone">
-  <h2>Factory Reset Demo App</h2>
-  <p>This removes current feedback, all staff records, monthly archive summaries and local login data from this browser.</p>
-  <label>
-    Type <strong>FACTORY RESET</strong> to confirm
-    <input type="text" id="factoryConfirm" placeholder="FACTORY RESET">
-  </label>
-  <button id="factoryResetBtn" class="danger-btn">Factory Reset Demo App</button>
-  <p id="factoryResetMessage" class="form-message"></p>
-</section>
+    <!-- =================================================
+         MONTHLY CLOSE & RESET
+    ================================================== -->
+
+    <section class="card reset-card">
+
+        <h2>
+            Monthly Close & Reset
+        </h2>
+
+        <p>
+            This clears current guest feedback, room numbers,
+            names, phone numbers, emails, comments,
+            complaint records and AI analysis from this browser
+            after creating an anonymous monthly summary.
+        </p>
+
+
+        <div class="reset-stats">
+
+
+            <div>
+
+                <span>
+                    Current Feedback
+                </span>
+
+                <strong id="resetFeedbackCount">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Complaints
+                </span>
+
+                <strong id="resetComplaintCount">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Residents
+                </span>
+
+                <strong id="resetResidentCount">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Non-Residents
+                </span>
+
+                <strong id="resetNonResidentCount">
+                    0
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- REPORT CONFIRMATION -->
+
+        <label class="confirm-check">
+
+            <input
+                type="checkbox"
+                id="reportSavedCheck"
+            >
+
+            I have printed or saved the monthly report.
+
+        </label>
+
+
+        <!-- RESET CONFIRMATION -->
+
+        <label>
+
+            Type
+            <strong>
+                RESET MONTH
+            </strong>
+            to confirm
+
+            <input
+                type="text"
+                id="monthlyConfirm"
+                placeholder="RESET MONTH"
+                autocomplete="off"
+            >
+
+        </label>
+
+
+        <button
+            id="monthlyResetBtn"
+            class="danger-btn"
+            type="button"
+        >
+            Archive Summary & Reset Monthly Data
+        </button>
+
+
+        <p
+            id="monthlyResetMessage"
+            class="form-message"
+        ></p>
+
+    </section>
+
+
+    <!-- =================================================
+         STAFF ACCOUNT RESET
+    ================================================== -->
+
+    <section class="card reset-card">
+
+        <h2>
+            Staff Account Reset
+        </h2>
+
+        <p>
+            Use this separately from the monthly guest reset.
+        </p>
+
+
+        <div class="danger-grid">
+
+            <button
+                id="keepAdminResetStaffBtn"
+                class="secondary-btn"
+                type="button"
+            >
+                Remove Staff Except System Admin
+            </button>
+
+
+            <button
+                id="allStaffResetBtn"
+                class="danger-btn"
+                type="button"
+            >
+                Remove All Staff Accounts
+            </button>
+
+        </div>
+
+
+        <p
+            id="staffResetMessage"
+            class="form-message"
+        ></p>
+
+    </section>
+
+
+    <!-- =================================================
+         ARCHIVED MONTHLY SUMMARIES
+    ================================================== -->
+
+    <section class="card reset-card">
+
+        <h2>
+            Archived Monthly Summaries
+        </h2>
+
+        <p class="muted">
+            These summaries contain only aggregate counts,
+            not guest personal details.
+        </p>
+
+
+        <div id="archiveList">
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         FACTORY RESET
+    ================================================== -->
+
+    <section class="card reset-card danger-zone">
+
+        <h2>
+            Factory Reset Demo App
+        </h2>
+
+        <p>
+            This removes current feedback, all staff records,
+            monthly archive summaries and local login data
+            from this browser.
+        </p>
+
+
+        <label>
+
+            Type
+            <strong>
+                FACTORY RESET
+            </strong>
+            to confirm
+
+            <input
+                type="text"
+                id="factoryConfirm"
+                placeholder="FACTORY RESET"
+                autocomplete="off"
+            >
+
+        </label>
+
+
+        <button
+            id="factoryResetBtn"
+            class="danger-btn"
+            type="button"
+        >
+            Factory Reset Demo App
+        </button>
+
+
+        <p
+            id="factoryResetMessage"
+            class="form-message"
+        ></p>
+
+    </section>
+
+
 </main>
 
+
+<!-- =====================================================
+     STORAGE HELPERS
+===================================================== -->
+
 <script src="../js/storage.js"></script>
+
+
+<!-- =====================================================
+     STAFF AUTHENTICATION
+===================================================== -->
+
 <script src="../js/auth.js"></script>
+
+
+<!-- =====================================================
+     SETTINGS / RESET LOGIC
+===================================================== -->
+
 <script src="../js/settings.js"></script>
-</body></html>
+
+
+</body>
+
+</html>

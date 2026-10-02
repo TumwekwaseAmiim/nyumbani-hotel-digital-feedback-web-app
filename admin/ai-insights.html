@@ -2,15 +2,32 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>AI Insights</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
 
-    <link rel="stylesheet" href="../css/style.css">
+    <title>
+        AI Insights
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
 </head>
 
+
 <body>
+
+
+<!-- =====================================================
+     ADMIN HEADER
+===================================================== -->
 
 <header class="admin-header">
 
@@ -70,9 +87,14 @@
             Settings
         </a>
 
+        <a href="change-password.html">
+            Change Password
+        </a>
+
         <button
             id="logoutBtn"
             class="link-btn"
+            type="button"
         >
             Logout
         </button>
@@ -82,7 +104,12 @@
 </header>
 
 
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
 <main class="admin-main">
+
 
     <div class="page-title-row">
 
@@ -123,6 +150,7 @@
     ================================================== -->
 
     <section class="stats-grid">
+
 
         <article class="stat-card">
 
@@ -292,7 +320,9 @@
      SUPABASE LIBRARY
 ===================================================== -->
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
 
 
 <!-- =====================================================
@@ -315,6 +345,7 @@
 
 <script>
 
+
 function escapeHtml(value) {
 
     if (
@@ -323,6 +354,7 @@ function escapeHtml(value) {
     ) {
 
         return "";
+
     }
 
 
@@ -332,6 +364,7 @@ function escapeHtml(value) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+
 }
 
 
@@ -339,7 +372,9 @@ function escapeHtml(value) {
 function formatDate(value) {
 
     if (!value) {
+
         return "-";
+
     }
 
 
@@ -353,7 +388,9 @@ function formatDate(value) {
     catch {
 
         return value;
+
     }
+
 }
 
 
@@ -385,6 +422,7 @@ async function loadAIInsights() {
 
         message.className =
             "form-message";
+
     }
 
 
@@ -397,6 +435,7 @@ async function loadAIInsights() {
                 </td>
             </tr>
         `;
+
     }
 
 
@@ -406,6 +445,7 @@ async function loadAIInsights() {
             data,
             error
         } =
+
             await window
                 .nyumbaniSupabase
                 .from("feedback")
@@ -443,6 +483,7 @@ async function loadAIInsights() {
 
                 message.className =
                     "form-message error";
+
             }
 
 
@@ -455,10 +496,12 @@ async function loadAIInsights() {
                         </td>
                     </tr>
                 `;
+
             }
 
 
             return;
+
         }
 
 
@@ -560,6 +603,7 @@ async function loadAIInsights() {
                 const department =
                     item.ai_department &&
                     item.ai_department.trim()
+
                         ? item.ai_department.trim()
                         : "General";
 
@@ -572,6 +616,7 @@ async function loadAIInsights() {
                             department
                         ] || 0
                     ) + 1;
+
             }
         );
 
@@ -590,9 +635,11 @@ async function loadAIInsights() {
 
             departments.innerHTML =
                 departmentEntries.length
+
                     ? departmentEntries
                         .map(
                             ([department, count]) => `
+
                                 <div class="category-box">
 
                                     <h3>
@@ -608,14 +655,17 @@ async function loadAIInsights() {
                                     feedback item(s)
 
                                 </div>
+
                             `
                         )
                         .join("")
+
                     : `
                         <p>
                             No AI-analyzed feedback yet.
                         </p>
                     `;
+
         }
 
 
@@ -627,6 +677,7 @@ async function loadAIInsights() {
 
             tableBody.innerHTML =
                 items.length
+
                     ? items
                         .slice(
                             0,
@@ -634,6 +685,7 @@ async function loadAIInsights() {
                         )
                         .map(
                             item => `
+
                                 <tr>
 
                                     <td>
@@ -687,9 +739,11 @@ async function loadAIInsights() {
                                     </td>
 
                                 </tr>
+
                             `
                         )
                         .join("")
+
                     : `
                         <tr>
 
@@ -699,6 +753,7 @@ async function loadAIInsights() {
 
                         </tr>
                     `;
+
         }
 
 
@@ -708,6 +763,7 @@ async function loadAIInsights() {
 
             message.className =
                 "form-message";
+
         }
 
 
@@ -733,8 +789,11 @@ async function loadAIInsights() {
 
             message.className =
                 "form-message error";
+
         }
+
     }
+
 }
 
 
@@ -759,8 +818,10 @@ document.addEventListener(
                 async function () {
 
                     await loadAIInsights();
+
                 }
             );
+
         }
 
     }

@@ -2,19 +2,33 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Staff Login</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
 
-    <link rel="stylesheet" href="../css/style.css">
+    <title>
+        Staff Login
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
 </head>
 
+
 <body>
+
 
 <main class="page-shell">
 
     <section class="card login-card">
+
 
         <img
             src="../assets/logo.png"
@@ -22,18 +36,23 @@
             alt="Nyumbani Hotel"
         >
 
+
         <h1 id="loginTitle">
             Staff Login
         </h1>
+
 
         <p
             id="roleText"
             class="role-badge"
         ></p>
 
+
         <form id="loginForm">
 
+
             <label>
+
                 Email
 
                 <input
@@ -42,10 +61,12 @@
                     autocomplete="email"
                     required
                 >
+
             </label>
 
 
             <label>
+
                 Password
 
                 <input
@@ -54,6 +75,7 @@
                     autocomplete="current-password"
                     required
                 >
+
             </label>
 
 
@@ -70,6 +92,7 @@
                 class="form-message"
             ></p>
 
+
         </form>
 
 
@@ -80,20 +103,32 @@
             ← Guest Feedback
         </a>
 
+
     </section>
 
 </main>
 
 
-<!-- SUPABASE JAVASCRIPT LIBRARY -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- =====================================================
+     SUPABASE JAVASCRIPT LIBRARY
+===================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
 
 
-<!-- NYUMBANI HOTEL SUPABASE CONNECTION -->
+<!-- =====================================================
+     NYUMBANI HOTEL SUPABASE CONNECTION
+===================================================== -->
+
 <script src="../js/supabase.js"></script>
 
 
-<!-- REAL STAFF AUTHENTICATION -->
+<!-- =====================================================
+     REAL STAFF AUTHENTICATION
+===================================================== -->
+
 <script src="../js/auth.js"></script>
 
 
